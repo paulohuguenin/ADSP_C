@@ -67,12 +67,14 @@ void matchingPursuit(   cgMatrix<double>& residue,
     CDictionary * triangDic = new CTriangDictionary;
     CDictionary * triangDic2 = new CTriangDictionary;
     CDictionary * bateDic = new CBatemanDictionary;
+    CDictionary * chi2Dic = new CChi2Dictionary;
 
     ((CExpDictionary*)expDic)->setSignalSize(dicSize);
     ((CGaborDictionary*)gaborDic)->setSignalSize(dicSize);
     ((CTriangDictionary*)triangDic)->setSignalSize(dicSize);
     ((CTriangDictionary*)triangDic2)->setSignalSize(2*dicSize);
     ((CBatemanDictionary*)bateDic)->setSignalSize(dicSize);
+    ((CChi2Dictionary*)chi2Dic)->setSignalSize(dicSize);
 
     strtParameter* parm = new strtParameter;
     ((strtParameter*)chosenParm)->innerProduct=0.0;
@@ -1474,6 +1476,7 @@ void matchingPursuit(   cgMatrix<double>& residue,
     if (triangDic) delete triangDic;
     if (triangDic) delete triangDic2;
     if (bateDic) delete bateDic;
+    if (chi2Dic) delete chi2Dic;
 
     if (conv_zxi0_w2_expinc) delete[] conv_zxi0_w2_expinc;
     if (conv_zxi0_w2) delete[] conv_zxi0_w2;
@@ -1723,7 +1726,7 @@ void fastMPKolasa(  cgMatrix<double>& residue,
 
         }
 
-        xi = (k*2*PI)/N;
+        //xi = (k*2*PI)/N;
         // cout << xi << endl;
         if (fabs(innerProd)>fabs(maxInnerProd))
         {
@@ -1968,6 +1971,7 @@ void fastMPKolasaModified(  cgMatrix<double>& residue,
     }
 
     fftw_execute ( plan_backward2);
+    cout << "xi" << xi<<endl;
 
     if (xi==0.0) //(k==0)
     {
@@ -2056,15 +2060,15 @@ void fastMPKolasaModified(  cgMatrix<double>& residue,
             }
 
              //cout << a1   << endl;
-             /*
+             
              FILE* stream;
              stream = fopen("fastkolasa.out","a");
-             fprintf (   stream," IP- %15.8f rho - %15.8f x1- %15.8f optph- %15.8f tau - %15.8f tau - %15.8f N-1 - %15.8f xp -  %15.8f xq - %15.8f pp -  %15.8f qq - %15.8f pq -%15.8f \n",
+             fprintf (   stream," IP- %15.8f rho - %15.8f x1- %15.8f optph- %15.8f chosenTau - %15.8f tau - %15.8f N-1 - %15.8f xp -  %15.8f xq - %15.8f pp -  %15.8f qq - %15.8f pq -%15.8f \n",
                      innerProd,
                      1/(double)s,
                      xi,
                      opt_phase,
-                     (double)tau,
+                     (double)chosenTau,
                      (double)tau,
                      (double)(N-1),
                      innerProd_xp,
@@ -2074,7 +2078,7 @@ void fastMPKolasaModified(  cgMatrix<double>& residue,
                      innerProd_pq);
              fflush(stream);
              fclose(stream);
-             */
+             
              //if (step == 4)
              //{
             //  cout << "innerProd: " << innerProd << endl;
@@ -2287,6 +2291,20 @@ void setParameters (strtParameter* chosenParm,
         ((strtParameter*)chosenParm)->dicType = dicType;
     }
 
+    else if (dicType == 8) //Chi2
+    {
+        ((strtParameter*)chosenParm)->innerProduct = innerProd;
+        ((strtParameter*)chosenParm)->s = s;
+        ((strtParameter*)chosenParm)->rho = 1/s;
+        ((strtParameter*)chosenParm)->beta = beta;
+        ((strtParameter*)chosenParm)->xi = xi;
+        ((strtParameter*)chosenParm)->phase = opt_phase;
+        ((strtParameter*)chosenParm)->u = tau;
+        ((strtParameter*)chosenParm)->a = a;
+        ((strtParameter*)chosenParm)->b = b;
+        ((strtParameter*)chosenParm)->dicType = dicType;
+    }
+
     return;
 }
 
@@ -2485,6 +2503,13 @@ void adjustParameters ( cgMatrix<double>& residue,
         ((CBatemanDictionary*)dic)-> adjustParameters(residue,parm);
     }
 
+    else if ( parm->dicType==8 )
+    {
+        dic = new CChi2Dictionary;
+        ((CChi2Dictionary*)dic)-> setSignalSize(residue.getColumns());
+        ((CChi2Dictionary*)dic)-> adjustParameters(residue,parm);
+    }
+
 
     if (dic) delete dic;
 }
@@ -2521,6 +2546,12 @@ void optimizeContinuousParms(   cgMatrix<double>& residue,
         dic = new CBatemanDictionary;
         ((CBatemanDictionary*)dic)->setSignalSize(residue.getColumns());
         ((CBatemanDictionary*)dic)-> optimizeContinuousParms(residue,parm);
+    }
+    else if ( parm->dicType==6 )
+    {
+        dic = new CChi2Dictionary;
+        ((CChi2Dictionary*)dic)->setSignalSize(residue.getColumns());
+        ((CChi2Dictionary*)dic)-> optimizeContinuousParms(residue,parm);
     }
 
 
@@ -2572,6 +2603,14 @@ void updateResidue (cgMatrix<double>& residue,
         realAtom = ((CBatemanDictionary*) dic)->getRealAtom();
     }
 
+    else if ( parm->dicType==8)
+    {
+        dic = new CChi2Dictionary;
+        ((CChi2Dictionary*)dic)-> setSignalSize(residue.getColumns());
+        ((CChi2Dictionary*) dic)->setRealAtom(parm);
+        realAtom = ((CChi2Dictionary*) dic)->getRealAtom();
+    }
+
     cgRealAtom.fillVector(realAtom);
     cgRealAtomAux = cgRealAtom*(((strtParameter*)parm)->innerProduct);
         residue = residue - cgRealAtom*(((strtParameter*)parm)->innerProduct);
@@ -2586,7 +2625,7 @@ void updateResidue (    cgMatrix<double>& residue,
                         cgMatrix<double>& b,
                         cgMatrix<double>& v,
                         cgMatrix<double>& Ai,
-                        cgMatrix<double>& a,
+                         cgMatrix<double>& a,
                         double& norm,
                         int dicSize,
                         int step,
@@ -2689,6 +2728,14 @@ void updateResidue (    cgMatrix<double>& residue,
         realAtom = ((CBatemanDictionary*) dic)->getRealAtom();
     }
 
+    else if ( parm->dicType==6)
+    {
+        dic = new CChi2Dictionary;
+        ((CChi2Dictionary*)dic)-> setSignalSize(residue.getColumns());
+        ((CChi2Dictionary*) dic)->setRealAtom(parm);
+        realAtom = ((CChi2Dictionary*) dic)->getRealAtom();
+    }
+
     cgRealAtom.fillVector(realAtom);
 
 
@@ -2752,6 +2799,14 @@ void updateResidue (    cgMatrix<double>& residue,
                 ((CBatemanDictionary*)dicAux)-> setSignalSize(residue.getColumns());
                 ((CBatemanDictionary*) dicAux)->setRealAtom(gGammaAux);
                 realAtomAux = ((CBatemanDictionary*) dicAux)->getRealAtom();
+            }
+
+            else if ( gGammaAux->dicType==8)
+            {
+                dicAux = new CChi2Dictionary;
+                ((CChi2Dictionary*)dicAux)-> setSignalSize(residue.getColumns());
+                ((CChi2Dictionary*) dicAux)->setRealAtom(gGammaAux);
+                realAtomAux = ((CChi2Dictionary*) dicAux)->getRealAtom();
             }
 
             for (int j=0; j<dicSize; j++)
@@ -2858,6 +2913,13 @@ void updateResidue (    cgMatrix<double>& residue,
                 realAtomAux = ((CBatemanDictionary*) dicAux)->getRealAtom();
             }
 
+            else if ( gGammaAux->dicType==8)
+            {
+                dicAux = new CChi2Dictionary;
+                ((CChi2Dictionary*)dicAux)-> setSignalSize(residue.getColumns());
+                ((CChi2Dictionary*) dicAux)->setRealAtom(gGammaAux);
+                realAtomAux = ((CChi2Dictionary*) dicAux)->getRealAtom();
+            }
             for (int j=0; j<dicSize; j++)
             {
                bg[j] += b[i][0]*realAtomAux[j];
@@ -2939,6 +3001,14 @@ void updateResidue (    cgMatrix<double>& residue,
                 ((CBatemanDictionary*)dicAux)-> setSignalSize(residue.getColumns());
                 ((CBatemanDictionary*) dicAux)->setRealAtom(gGammaAux);
                 realAtomAux = ((CBatemanDictionary*) dicAux)->getRealAtom();
+            }
+
+            else if ( gGammaAux->dicType==8)
+            {
+                dicAux = new CChi2Dictionary;
+                ((CChi2Dictionary*)dicAux)-> setSignalSize(residue.getColumns());
+                ((CChi2Dictionary*) dicAux)->setRealAtom(gGammaAux);
+                realAtomAux = ((CChi2Dictionary*) dicAux)->getRealAtom();
             }
 
             for (int j=0; j<dicSize; j++)
@@ -3426,6 +3496,7 @@ void matchingPursuitEDA(cgMatrix<double>& residue,
     CDictionary * triangDic = new CTriangDictionary;
     CDictionary * triangDic2 = new CTriangDictionary;
     CDictionary * bateDic = new CBatemanDictionary;
+    CDictionary * chi2Dic = new CChi2Dictionary;
 
 
     ((CExpDictionary*)expDic)->setSignalSize(dicSize);
@@ -3433,6 +3504,7 @@ void matchingPursuitEDA(cgMatrix<double>& residue,
     ((CTriangDictionary*)triangDic)->setSignalSize(dicSize);
     ((CTriangDictionary*)triangDic2)->setSignalSize(2*dicSize);
     ((CBatemanDictionary*)bateDic)->setSignalSize(dicSize);
+    ((CChi2Dictionary*)chi2Dic)->setSignalSize(dicSize);
 
 
     strtParameter* parm = new strtParameter;
@@ -4128,6 +4200,7 @@ void matchingPursuitEDA(cgMatrix<double>& residue,
                             cout<<realAtomWin[k1]<< endl;
                         }
                         */
+
                         for (int k1=0; k1<dicSize;k1++)
                         {
                             //realAtomWin[k1+1] = *(gaborDic->getRealAtom()+k1);
@@ -4135,9 +4208,9 @@ void matchingPursuitEDA(cgMatrix<double>& residue,
                             realAtomWin[(2*N-1)-k1] = *(gaborDic->getRealAtom()+k1);
                             //realAtomWin[k1+1] = *(gaborDic->getRealAtom()+k1); //add 1 to centralize de max
                             //realAtomWin[(2*N-1)-k1] = *(gaborDic->getRealAtom()+k1);
-
+                        //cout<< realAtomWin[k1]<<"  "<<realAtomWin[(2*N-1)-k1]<<endl;     
                         }
-
+                        //cout<<"------------------"<<endl;
                          //cout << dicSize << endl;
                         // for (int k1=0; k1<2*dicSize; k1++)
                         // {
@@ -4404,7 +4477,7 @@ void matchingPursuitEDA(cgMatrix<double>& residue,
                 }
             }
 
-            if (dicType == 6) //Bateman
+            else if (dicType == 6) //Bateman
             {
 
                 if (MPType == 1)
@@ -4427,7 +4500,7 @@ void matchingPursuitEDA(cgMatrix<double>& residue,
                                 ((CBatemanDictionary*)bateDic)->setComplexAtom(parm);
                                 complexAtom = bateDic->getComplexAtom();
 
-                                //computeOptimumPhase(residue,chosenOptPhase,maxInnerProd,N,xi,complexAtom, fileName,s,tau,N);
+                                computeOptimumPhase(residue,chosenOptPhase,maxInnerProd,N,xi,complexAtom, fileName,s,tau,N);
 
                                 if (fabs(maxInnerProd)>fabs(((strtParameter*)chosenParm)->innerProduct))
                                 {
@@ -4658,6 +4731,265 @@ void matchingPursuitEDA(cgMatrix<double>& residue,
                 }
             }
 
+            else if (dicType == 8) // Chi2
+            {
+                if (MPType == 1)
+                {
+                    beta=rise;
+                    //for (beta = 2.0; beta > 1.0/s; beta/=2.0)
+                    //{
+                        for(k=0;k<Nfreq;k++)
+                        {
+                            for(tau=0;tau<(double)N;tau+=delta_tau)
+                            {
+                                xi = xi_vec[k];
+                                ((strtParameter*)parm)->s = s;
+                                ((strtParameter*)parm)->rho = decay;
+                                ((strtParameter*)parm)->xi = xi;
+                                ((strtParameter*)parm)->phase = 0.0;
+                                ((strtParameter*)parm)->u = tau;
+                                ((strtParameter*)parm)->a = 0;
+                                ((strtParameter*)parm)->b = N-1;
+                                ((strtParameter*)parm)->beta = beta;
+                                ((CChi2Dictionary*)chi2Dic)->setComplexAtom(parm);
+                                complexAtom = chi2Dic->getComplexAtom();
+
+                                computeOptimumPhase(residue,chosenOptPhase,maxInnerProd,N,xi,complexAtom, fileName,s,tau,N);
+
+                                if (fabs(maxInnerProd)>fabs(((strtParameter*)chosenParm)->innerProduct))
+                                {
+                                    setParameters ( chosenParm,
+                                                    dicType,
+                                                    maxInnerProd,
+                                                    s,
+                                                    xi,
+                                                    chosenOptPhase,
+                                                    tau,
+                                                    0,
+                                                    N-1,
+                                                    beta);
+                                }
+                                d++;
+                            }
+                        //}
+                    }
+                }
+
+                else if (MPType==2)
+                {
+                    // int delta_tau = s;
+                    //for (beta=1.0; beta > 1.0/s; beta/=(2.0))
+                    //{
+                    beta=rise;
+                    rho=decay;
+                        for (tau=0; tau<(double)N; tau=tau+delta_tau)
+                        {
+                            ((strtParameter*)parm)->rho = rho;
+                            ((strtParameter*)parm)->beta = beta;
+                            ((strtParameter*)parm)->s = s;
+                            //((strtParameter*)parm)->rho = 1.0/s;
+                            //((strtParameter*)parm)->beta = beta;
+                            ((strtParameter*)parm)->xi = 0.0;
+                            ((strtParameter*)parm)->phase = 0.0;
+                            ((strtParameter*)parm)->u = tau;
+                            ((strtParameter*)parm)->a = 0; //tau
+                            ((strtParameter*)parm)->b = N-1;
+                            ((CChi2Dictionary*)chi2Dic)->setRealAtom(parm);
+                            realAtom = chi2Dic->getRealAtom();
+                            fastMPKolasa(   residue,
+                                            maxInnerProd,
+                                            chosenOptPhase,
+                                            chosenXi,
+                                            dicSize,
+                                            tau,
+                                            s,
+                                            realAtom,
+                                            fileName);
+
+                            if (fabs(maxInnerProd)>fabs(((strtParameter*)chosenParm)->innerProduct))
+                            {
+                                setParameters ( chosenParm,
+                                                dicType,
+                                                maxInnerProd,
+                                                s,
+                                                chosenXi,
+                                                chosenOptPhase,
+                                                tau,
+                                                0,
+                                                N-1,
+                                                beta);
+
+                            }
+                        }
+                    //}
+                }
+
+                else if (MPType==3)
+                {
+                    //int a=0;
+                    beta=rise;
+                    rho = decay;
+                    ///int j = 0;
+                    // for (rho =(0.7/4.0); rho <= (1.1/4.0) ; rho+=(0.1/4.0))
+                    ///for (rho =0.025; rho <= 0.5 ; rho=(((1e4*rho)+250)/1e4))
+                    ///{
+                        // cout << "rho - " << xi << endl;
+                         //cout << "k1 - " << delta_tau << endl;
+                       /// for (beta=0.5; beta > rho; beta=(((1e4*beta)-500)/1e4))
+                        ///{
+                        // cout << "   beta - " << beta << endl;
+                            // cout << int(1e3*beta) << " " << int(1e3*rho) << endl;
+                            ///j = j+1;
+                    // for (tau=0; tau<(double)N; tau=tau+delta_tau)
+                    //{
+                            ((strtParameter*)parm)->rho = rho;
+                            ((strtParameter*)parm)->s = s;
+                            ((strtParameter*)parm)->beta = beta;
+                            ((strtParameter*)parm)->xi = 0; //0
+                            ((strtParameter*)parm)->phase = 0.0;
+                            ((strtParameter*)parm)->u = 0; //0
+                            ((strtParameter*)parm)->a = 0; //0
+                            ((strtParameter*)parm)->b = N-1;
+                            ((CChi2Dictionary*)chi2Dic)->setRealAtom(parm);
+
+                            //((CChi2Dictionary*)expDic)->setRealAtom(parm);
+
+                            for (int k1=0; k1<dicSize;k1++)
+                            {
+                                //realAtomWin[k1] = *(bateDic->getRealAtom()+k1); //add 1 to centralize de max
+                                realAtomWin[k1] = *(chi2Dic->getRealAtom()+k1);
+                                //realAtomWin[k1+N] = *(expDic->getRealAtom()+k1);
+                                //realAtomWin[k1] = *(bateDic->getRealAtom()+k1); //realAtomWin[k1+N] = *(bateDic->getRealAtom()+k1);
+                                //cout << "FES-  " <<  realAtomWin[k1] <<endl;//"   RAW-  "<< realAtomWin[k1+N] << endl;
+
+                            }
+
+                            for(k=0;k<Nfreq;k++)
+                            {
+                                //xi = k * ((2*PI)/s);
+                                xi=xi_vec[k];
+                                //cout << "x1-" << xi << endl;
+                                if ( (xi==0.0) || (xi>=((2*PI)/s) ))
+                                {
+                                   // cout << "OI" << xi << endl;
+                                    // z1 
+                                    ((strtParameter*)parm)->rho = rho;
+                                     ((strtParameter*)parm)->s = s;
+                                    ((strtParameter*)parm)->beta = beta;
+                                    ((strtParameter*)parm)->xi = xi;
+                                    ((strtParameter*)parm)->phase = 0.0;
+                                    ((strtParameter*)parm)->u = 0; //0
+                                    ((strtParameter*)parm)->a = 0;//0
+                                    ((strtParameter*)parm)->b = N-1;
+                                    //((CBatemanDictionary*)expDic)->setComplexAtom(parm);
+                                    ((CChi2Dictionary*)chi2Dic)->setComplexAtom(parm);
+
+                                    for (int k1=0; k1<dicSize;k1++)
+                                    {
+
+                                        //complexAtomXi[k1] = *(expDic->getComplexAtom()+k1);
+                                        complexAtomXi[k1] = *(chi2Dic->getComplexAtom()+k1); //complexAtomXi[k1] = *(bateDic->getComplexAtom()+k1);
+                                       // cout << "HeY" <<  complexAtomXi[k1].Real() << endl;
+                                        //cout << "HoY" <<  complexAtomXi[k1].Imag() << endl;
+                                    }
+
+                                    // z2
+                                    ((strtParameter*)parm)->rho = rho;
+                                     ((strtParameter*)parm)->s = s;
+                                    ((strtParameter*)parm)->beta =beta;
+                                    ((strtParameter*)parm)->xi = 2*xi;
+                                    ((strtParameter*)parm)->phase = 0.0;
+                                    ((strtParameter*)parm)->u = 0; //0
+                                    ((strtParameter*)parm)->a = 0;//tau
+                                    ((strtParameter*)parm)->b = N-1;
+                                    ((CChi2Dictionary*)chi2Dic)->setComplexAtom(parm);
+                                    //((CBatemanDictionary*)expDic)->setComplexAtom(parm);
+
+                                    for (int k1=0; k1<dicSize;k1++)
+                                    {
+
+
+                                        //complexAtom2Xi[k1] = *(expDic->getComplexAtom()+k1);
+                                        complexAtom2Xi[k1] = *(chi2Dic->getComplexAtom()+k1);   //complexAtom2Xi[k1] = *(bateDic->getComplexAtom()+k1);
+                                        //cout << "HOY" << complexAtom2Xi[k1].Real() << endl;
+
+
+
+                                    }
+
+                                      //    FILE* stream;
+                                         //                           stream = fopen("BATCA.out","a");
+                                        // for(int k1=0;k1<dicSize;k1++)
+                                        // {
+                                         //fprintf (   stream," CAR- %15.8f CAR2 - %15.8f \n",
+                                          //       complexAtomXi[k1].Real(),
+                                           //      complexAtom2Xi[k1].Real());
+                                            //}
+                                         //fflush(stream);
+
+                                         //fclose(stream);
+
+
+
+                                    //((CBatemanDictionary*)bateDic)->optimizeContinuousParms(residue, chosenParm);
+
+                                    fastMPKolasaModified(   residue,
+                                                            maxInnerProd,
+                                                            chosenOptPhase,
+                                                            chosenTau,
+                                                            dicSize,
+                                                            1,
+                                                            delta_tau,
+                                                            xi,
+                                                            realAtomWin,
+                                                            complexAtomXi,
+                                                            complexAtom2Xi,
+                                                            conv_zxi0_w2,
+                                                            fileName,
+                                                            (1.0/rho));
+
+                                //cout << "AQUI" << fabs(((strtParameter*)chosenParm)->innerProduct) << endl;
+
+                                    //((CBatemanDictionary*)bateDic)->optimizeContinuousParms(residue, chosenParm);
+
+                                    //computeOptimumPhase(residue,chosenOptPhase,maxInnerProd,N,xi,complexAtom, fileName,s,tau,N);
+
+
+                                    //cout << "HERE" << fabs(((strtParameter*)chosenParm)->innerProduct) << endl;
+                                    //cout << "AQUI" << fabs(maxInnerProd) << endl;
+                                    //cout<<"OI"<<fabs(((strtParameter*)chosenParm)->innerProduct)<<endl;
+                                    if (fabs(maxInnerProd)>fabs(((strtParameter*)chosenParm)->innerProduct))
+                                    {
+                                        setParameters ( chosenParm,
+                                                        dicType,
+                                                        maxInnerProd,
+                                                        (1.0/rho),
+                                                        xi,
+                                                        chosenOptPhase,
+                                                        chosenTau,
+                                                        0,
+                                                        N-1,
+                                                        beta);
+                                         //((CBatemanDictionary*)bateDic)->optimizeContinuousParms(residue, chosenParm);
+
+                                    //cout << "MIP" << maxInnerProd<< endl;
+                                    //cout << "TAU:" << delta_tau << endl;
+                                    //cout << "CTAU" <<chosenTau<< endl;
+                                    //cout << "HEY" << innerProduct<< endl;
+
+
+
+                                    }
+                                    //((CBatemanDictionary*)bateDic)->optimizeContinuousParms(residue, chosenParm);
+
+
+                           // }
+                        }
+                    }
+                }
+
+            }
+
             if (xi_vec) delete [] xi_vec;
         }
     }
@@ -4667,6 +4999,7 @@ void matchingPursuitEDA(cgMatrix<double>& residue,
     if (triangDic2) delete triangDic2;
     if (gaborDic) delete gaborDic;
     if (bateDic) delete bateDic;
+    if (chi2Dic) delete chi2Dic;
     if (expDic) delete expDic;
     if (conv_zxi0_w2_expinc) delete[] conv_zxi0_w2_expinc;
     if (conv_zxi0_w2) delete[] conv_zxi0_w2;

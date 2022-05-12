@@ -2080,7 +2080,7 @@ void decompEDA(   CFileDecomp* genData,
     //int iSignal;
     //double sigNorm;
     //int iBlock;
-
+   
     for (i=0; i < dataSignal->getNumSignal(); i++ )
     {
         // Writing the Signal Header]
@@ -2145,13 +2145,31 @@ void decompEDA(   CFileDecomp* genData,
                 }
                 // Normalizing initial residue (with signal norm)
                 residue /= dataSignal->getNorm(i);
-
+                /*
+                cout<<"resisudeds"<<residue[0][0]<<endl;
+                //cout<<"resisudeds"<<typeid(residue).name()<<endl;
+                
+                if (j==0){
+                FILE* stream;
+                stream = fopen("residueC.out", "w");
+                fprintf(stream, "bloco           tempo \n");
+                fprintf(stream,"[");
+                for(int n=0;n<dicSize;n++)
+                {
+                    fprintf(stream,"%f ,",residue[0][n]);
+                }
+                fprintf(stream,"]");
+                fflush(stream);
+                fclose(stream);
+                }
+                */
                 signal = residue;
 
                 norm = residue.norm();
+                cout << "Residue NORM:  " <<dataSignal->getNorm(i)<<endl;
                 ((CStructBookParm*)structBook[i])[j].setNorm(norm);
                 double initBlockNorm = norm;
-
+                cout<<"initBlockNorm"<<initBlockNorm<<endl;
                 // Writing the Block Header
                 // iosba = fopen(fileName,"a");
                 ((CStructBookParm*)structBook[0])[0].saveBlockHeaderASCII(fileName,j,initBlockNorm);
@@ -2364,7 +2382,7 @@ void decompEDA(   CFileDecomp* genData,
                                                                                 (norm/initBlockNorm),
                                                                                 chosenNet);
                         // cout << fabs(((strtParameter*)chosenParm)->innerProduct) << endl;
-                        cout << pow((norm/initBlockNorm),2) << endl;
+                        cout <<pow((norm/initBlockNorm),2) << endl;
                         if (    meanApproxRatio <= tolAppRatio
                                 // || pow((norm/initBlockNorm),2)<=0.05
                                 // || (step>=(L+nAtomCont))
