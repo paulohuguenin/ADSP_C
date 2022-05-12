@@ -65,7 +65,7 @@ void CExpDictionary::setComplexAtom(strtParameter* parm)
     double xi = ((strtParameter*)parm)->xi;
     int a = ((strtParameter*)parm)->a;
     int b = ((strtParameter*)parm)->b;
-    // cout << rho << " " << xi << " " << " " << a << " " << b << endl; 
+    // cout << rho << " " << xi << " " << " " << a << " " << b << endl;
 
     if (rho>=0)
     {
@@ -161,7 +161,7 @@ void CExpDictionary::setRealAtom(strtParameter* parm)
     int a = ((strtParameter*)parm)->a;
     int b = ((strtParameter*)parm)->b;
 
-    // cout << rho << " " << xi << " " << phi << " " << a << " " << b << endl; 
+    // cout << rho << " " << xi << " " << phi << " " << a << " " << b << endl;
 
     if (rho>=0)
     {
@@ -703,7 +703,7 @@ void CExpDictionary::executeDecomp( CDataSignal* dataSignal,
     dummydouble = dataSignal->getSamplingRate();
     fwrite(&dummydouble, sizeof(double), 1, iosbb);
 
-      
+
    /*if (genData->getSigType()==1)
         {
         dummydouble = ((CComtradeSignal*)dataSignal)->getSamplingRate(1);
@@ -715,8 +715,8 @@ void CExpDictionary::executeDecomp( CDataSignal* dataSignal,
         fwrite(&dummydouble, sizeof(double), 1, iosbb);
     }
     */
-    
-    
+
+
     fwrite(&initBlock,sizeof(int),1,iosbb);
     fwrite(&finalBlock,sizeof(int),1,iosbb);
     fclose(iosbb);
@@ -844,7 +844,7 @@ void CExpDictionary::executeDecomp( CDataSignal* dataSignal,
                         //expParm = fastMPKolasa(residue);
                         fastMPKolasaModified(residue,dataSignal,dicData,&expParm,step);
                         // expParm.printParm2Screen();
-                        cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl; 
+                        cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl;
                         if (genData->getPrintDecompStage()==1)
                         {
                             decomp_stage=1;
@@ -897,7 +897,7 @@ void CExpDictionary::executeDecomp( CDataSignal* dataSignal,
                                                             genData->getCoefTempSup());
                                 }
                                 // expParm.printParm2Screen();
-                                cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl; 
+                                cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl;
                                 if (genData->getPrintDecompStage()==1)
                                 {
                                     decomp_stage=2;
@@ -919,7 +919,7 @@ void CExpDictionary::executeDecomp( CDataSignal* dataSignal,
                             {
                                 optimizeDecaying(residue,&expParm);
                                 // expParm.printParm2Screen();
-                                cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl; 
+                                cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl;
                                 if (genData->getPrintDecompStage()==1)
                                 {
                                     decomp_stage=3;
@@ -948,7 +948,7 @@ void CExpDictionary::executeDecomp( CDataSignal* dataSignal,
                                                     0,
                                                     genData->getCoefSeqBlock());
                             // expParm.printParm2Screen();
-                            cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl; 
+                            cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl;
                         }
 
 
@@ -960,7 +960,7 @@ void CExpDictionary::executeDecomp( CDataSignal* dataSignal,
                         cout << "Parameters adjusted!!" << endl;
                         cout << "Chosen atom parameters: " << endl;
                         // expParm.printParm2Screen();
-                        cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl; 
+                        cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl;
 
                         // Updating residue
                         cout<< "->Updating residue..." << endl << endl;
@@ -1216,7 +1216,7 @@ void CExpDictionary::executeDecompElectric( CDataSignal* dataSignal,
     dummydouble = dataSignal->getSamplingRate();
     fwrite(&dummydouble, sizeof(double), 1, iosbb);
 
-      
+
    /*if (genData->getSigType()==1)
         {
         dummydouble = ((CComtradeSignal*)dataSignal)->getSamplingRate(1);
@@ -1228,8 +1228,8 @@ void CExpDictionary::executeDecompElectric( CDataSignal* dataSignal,
         fwrite(&dummydouble, sizeof(double), 1, iosbb);
     }
     */
-    
-    
+
+
     fwrite(&initBlock,sizeof(int),1,iosbb);
     fwrite(&finalBlock,sizeof(int),1,iosbb);
     fclose(iosbb);
@@ -1360,7 +1360,7 @@ void CExpDictionary::executeDecompElectric( CDataSignal* dataSignal,
                         //expParm = fastMPKolasa(residue);
                         fastMPKolasaModified(residue,dataSignal,dicData,&expParm, step);
                         // expParm.printParm2Screen();
-                        cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl; 
+                        cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl;
                         if (genData->getPrintDecompStage()==1)
                         {
                             decomp_stage=1;
@@ -1413,7 +1413,7 @@ void CExpDictionary::executeDecompElectric( CDataSignal* dataSignal,
                                                             genData->getCoefTempSup());
                                 }
                                 // expParm.printParm2Screen();
-                                cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl; 
+                                cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl;
                                 if (genData->getPrintDecompStage()==1)
                                 {
                                     decomp_stage=2;
@@ -1435,7 +1435,7 @@ void CExpDictionary::executeDecompElectric( CDataSignal* dataSignal,
                             {
                                 optimizeDecaying(residue,&expParm);
                                 // expParm.printParm2Screen();
-                                cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl; 
+                                cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl;
                                 if (genData->getPrintDecompStage()==1)
                                 {
                                     decomp_stage=3;
@@ -1460,7 +1460,7 @@ void CExpDictionary::executeDecompElectric( CDataSignal* dataSignal,
                             cout<< "->Discrimining sine..." << endl;
                             discrimineSine(residue,&expParm,dataSignal);
                             // expParm.printParm2Screen();
-                            cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl; 
+                            cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl;
                             if (genData->getPrintDecompStage()==1)
                             {
                                 decomp_stage=4;
@@ -1489,7 +1489,7 @@ void CExpDictionary::executeDecompElectric( CDataSignal* dataSignal,
                                                     0,
                                                     genData->getCoefSeqBlock());
                             // expParm.printParm2Screen();
-                            cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl; 
+                            cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl;
                         }
 
 
@@ -1501,7 +1501,7 @@ void CExpDictionary::executeDecompElectric( CDataSignal* dataSignal,
                         cout << "Parameters adjusted!!" << endl;
                         cout << "Chosen atom parameters: " << endl;
                         // expParm.printParm2Screen();
-                        cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl; 
+                        cout << "Coef: "<<expParm.innerProduct<<"| Rho: "<<expParm.rho<<"| Xi: "<<expParm.xi<<"| Phase: "<<expParm.phase<<"| a: "<<expParm.a<<"| b: "<<expParm.b<< endl;
 
                         // Updating residue
                         cout<< "->Updating residue..." << endl << endl;
@@ -2139,7 +2139,7 @@ void CExpDictionary::fastMPKolasaModified(  cgMatrix<double>& residue,
     double* xi_vec;
     double freqi,freqf;
     int fdiscrtype;
-    FILE* stream;   
+    FILE* stream;
 
     //dicData->printToScreen();
     // cout << "AQUI" << endl;
@@ -2431,7 +2431,7 @@ void CExpDictionary::fastMPKolasaModified(  cgMatrix<double>& residue,
                         z1[i][1] = m_complexAtom[i].Imag() * residue[0][i];
                         // if (step == 4)
                         // {
-                        //    cout << i << " - w2: " << w2[i][0] << endl; 
+                        //    cout << i << " - w2: " << w2[i][0] << endl;
                         // }
                         // cout << i << " - w2: " << w2[i][0] << endl;
                     }
@@ -2466,7 +2466,7 @@ void CExpDictionary::fastMPKolasaModified(  cgMatrix<double>& residue,
                         // if (step == 4)
                         // {
                            // cout << prod_cvec_zw1[i][0]<< " + j* " << prod_cvec_zw1[i][1] << endl;
-                        // }                    
+                        // }
                     }
 
                     fftw_execute ( plan_backward1);
@@ -2500,7 +2500,7 @@ void CExpDictionary::fastMPKolasaModified(  cgMatrix<double>& residue,
                     }
                     // for (i=0;i<2*N;i++)
                     // {
-                    //         cout << "conv_zxi0_w2["<<i<<"][0]:   " << conv_zxi0_w2[i][0] << " - conv_zxi0_w2["<<i<<"][1]:   " << conv_zxi0_w2[i][1] << endl;                        
+                    //         cout << "conv_zxi0_w2["<<i<<"][0]:   " << conv_zxi0_w2[i][0] << " - conv_zxi0_w2["<<i<<"][1]:   " << conv_zxi0_w2[i][1] << endl;
                     // }
 
 
@@ -2517,7 +2517,7 @@ void CExpDictionary::fastMPKolasaModified(  cgMatrix<double>& residue,
                         innerProd_pq = 0.5*(conv_zw2[tau+N-1][1]/(double)(2*N));
                         // if (step == 4)
                         // {
-                        //    cout << "s: " << s << " - xi: " << xi << " - tau: " << tau << "conv_zxi0_w2: " << conv_zxi0_w2[tau+N-1][0] << " - conv_zw2:" << conv_zw2[tau+N-1][0] << endl; 
+                        //    cout << "s: " << s << " - xi: " << xi << " - tau: " << tau << "conv_zxi0_w2: " << conv_zxi0_w2[tau+N-1][0] << " - conv_zw2:" << conv_zw2[tau+N-1][0] << endl;
                         // }
 
                         a1 = innerProd_xp * innerProd_qq - innerProd_xq * innerProd_pq;
@@ -3251,11 +3251,11 @@ void CExpDictionary::proceedHeuristics( cgMatrix<double>& residue,
         cout<< "->Finding the best time support ..." << endl;
         findFastBestTimeSupport(residue,parm,2,1);
         //((strtParameter*)parm)->printParm2Screen();
-        cout << "Coef: "<<((strtParameter*)parm)->innerProduct<<"| Rho: "<<((strtParameter*)parm)->rho<<"| Xi: "<<((strtParameter*)parm)->xi<<"| Phase: "<<((strtParameter*)parm)->phase<<"| a: "<<((strtParameter*)parm)->a<<"| b: "<<((strtParameter*)parm)->b<< endl; 
+        cout << "Coef: "<<((strtParameter*)parm)->innerProduct<<"| Rho: "<<((strtParameter*)parm)->rho<<"| Xi: "<<((strtParameter*)parm)->xi<<"| Phase: "<<((strtParameter*)parm)->phase<<"| a: "<<((strtParameter*)parm)->a<<"| b: "<<((strtParameter*)parm)->b<< endl;
 
         optimizeDecaying(residue,parm);
         // ((strtParameter*)parm)->printParm2Screen();
-        cout << "Coef: "<<((strtParameter*)parm)->innerProduct<<"| Rho: "<<((strtParameter*)parm)->rho<<"| Xi: "<<((strtParameter*)parm)->xi<<"| Phase: "<<((strtParameter*)parm)->phase<<"| a: "<<((strtParameter*)parm)->a<<"| b: "<<((strtParameter*)parm)->b<< endl; 
+        cout << "Coef: "<<((strtParameter*)parm)->innerProduct<<"| Rho: "<<((strtParameter*)parm)->rho<<"| Xi: "<<((strtParameter*)parm)->xi<<"| Phase: "<<((strtParameter*)parm)->phase<<"| a: "<<((strtParameter*)parm)->a<<"| b: "<<((strtParameter*)parm)->b<< endl;
 
 
         if ( (((strtParameter*)parm)->rho != 0.0) && (dataSignal->getType()==1)) // damp case
@@ -3264,7 +3264,7 @@ void CExpDictionary::proceedHeuristics( cgMatrix<double>& residue,
             cout<< "->Discrimining sine..." << endl;
             discrimineSine(residue,parm,dataSignal);
             // ((strtParameter*)parm)->printParm2Screen();
-            cout << "Coef: "<<((strtParameter*)parm)->innerProduct<<"| Rho: "<<((strtParameter*)parm)->rho<<"| Xi: "<<((strtParameter*)parm)->xi<<"| Phase: "<<((strtParameter*)parm)->phase<<"| a: "<<((strtParameter*)parm)->a<<"| b: "<<((strtParameter*)parm)->b<< endl; 
+            cout << "Coef: "<<((strtParameter*)parm)->innerProduct<<"| Rho: "<<((strtParameter*)parm)->rho<<"| Xi: "<<((strtParameter*)parm)->xi<<"| Phase: "<<((strtParameter*)parm)->phase<<"| a: "<<((strtParameter*)parm)->a<<"| b: "<<((strtParameter*)parm)->b<< endl;
 
         }
     }
@@ -4543,7 +4543,7 @@ void CExpDictionary::optimizeDecayingErrorNorm(  cgMatrix<double>& residue,
     cout << " -- Optimizing the Decaying with Pseudo-Newton algorithm regarding error norm" << endl;
     cout << "    INIT: ";
     // ((strtParameter*)parm_aux)->printParm2Screen();
-    cout << "Coef: "<<((strtParameter*)parm_aux)->innerProduct<<"| Rho: "<<((strtParameter*)parm_aux)->rho<<"| Xi: "<<((strtParameter*)parm_aux)->xi<<"| Phase: "<<((strtParameter*)parm_aux)->phase<<"| a: "<<((strtParameter*)parm_aux)->a<<"| b: "<<((strtParameter*)parm_aux)->b<< endl; 
+    cout << "Coef: "<<((strtParameter*)parm_aux)->innerProduct<<"| Rho: "<<((strtParameter*)parm_aux)->rho<<"| Xi: "<<((strtParameter*)parm_aux)->xi<<"| Phase: "<<((strtParameter*)parm_aux)->phase<<"| a: "<<((strtParameter*)parm_aux)->a<<"| b: "<<((strtParameter*)parm_aux)->b<< endl;
 
     // Recalculate rho for the new time support
     // by a pseudo-newton method
@@ -4677,7 +4677,7 @@ void CExpDictionary::optimizeDecayingErrorNorm(  cgMatrix<double>& residue,
 
     cout << "    END:  ";
     // ((strtParameter*)parm_aux)->printParm2Screen();
-    cout << "Coef: "<<((strtParameter*)parm_aux)->innerProduct<<"| Rho: "<<((strtParameter*)parm_aux)->rho<<"| Xi: "<<((strtParameter*)parm_aux)->xi<<"| Phase: "<<((strtParameter*)parm_aux)->phase<<"| a: "<<((strtParameter*)parm_aux)->a<<"| b: "<<((strtParameter*)parm_aux)->b<< endl; 
+    cout << "Coef: "<<((strtParameter*)parm_aux)->innerProduct<<"| Rho: "<<((strtParameter*)parm_aux)->rho<<"| Xi: "<<((strtParameter*)parm_aux)->xi<<"| Phase: "<<((strtParameter*)parm_aux)->phase<<"| a: "<<((strtParameter*)parm_aux)->a<<"| b: "<<((strtParameter*)parm_aux)->b<< endl;
 
 
     delete parm_aux2;
@@ -5527,10 +5527,10 @@ void CExpDictionary::searchSBPreviousBlock(     cgMatrix<double>& residue,
 
     cout << "$$ PARM $$" << endl;
     // ((strtParameter*)parm)->printParm2Screen();
-    cout << "Coef: "<<((strtParameter*)parm)->innerProduct<<"| Rho: "<<((strtParameter*)parm)->rho<<"| Xi: "<<((strtParameter*)parm)->xi<<"| Phase: "<<((strtParameter*)parm)->phase<<"| a: "<<((strtParameter*)parm)->a<<"| b: "<<((strtParameter*)parm)->b<< endl; 
+    cout << "Coef: "<<((strtParameter*)parm)->innerProduct<<"| Rho: "<<((strtParameter*)parm)->rho<<"| Xi: "<<((strtParameter*)parm)->xi<<"| Phase: "<<((strtParameter*)parm)->phase<<"| a: "<<((strtParameter*)parm)->a<<"| b: "<<((strtParameter*)parm)->b<< endl;
     cout << "$$ PARM_PREVIOUS $$" << endl;
     // ((strtParameter*)parm_aux2)->printParm2Screen();
-    cout << "Coef: "<<((strtParameter*)parm_aux2)->innerProduct<<"| Rho: "<<((strtParameter*)parm_aux2)->rho<<"| Xi: "<<((strtParameter*)parm_aux2)->xi<<"| Phase: "<<((strtParameter*)parm_aux2)->phase<<"| a: "<<((strtParameter*)parm_aux2)->a<<"| b: "<<((strtParameter*)parm_aux2)->b<< endl; 
+    cout << "Coef: "<<((strtParameter*)parm_aux2)->innerProduct<<"| Rho: "<<((strtParameter*)parm_aux2)->rho<<"| Xi: "<<((strtParameter*)parm_aux2)->xi<<"| Phase: "<<((strtParameter*)parm_aux2)->phase<<"| a: "<<((strtParameter*)parm_aux2)->a<<"| b: "<<((strtParameter*)parm_aux2)->b<< endl;
 
     FILE* stream;
     stream = fopen("eval_prevblocksb.out","a");
@@ -5861,7 +5861,7 @@ void CExpDictionary::evalAtomContinuity(cgMatrix<double>& residue,
 
         cout << "Bloco anterior" << endl;
         // ((strtParameter*)parm_aux)->printParm2Screen();
-        cout << "Coef: "<<((strtParameter*)parm_aux)->innerProduct<<"| Rho: "<<((strtParameter*)parm_aux)->rho<<"| Xi: "<<((strtParameter*)parm_aux)->xi<<"| Phase: "<<((strtParameter*)parm_aux)->phase<<"| a: "<<((strtParameter*)parm_aux)->a<<"| b: "<<((strtParameter*)parm_aux)->b<< endl; 
+        cout << "Coef: "<<((strtParameter*)parm_aux)->innerProduct<<"| Rho: "<<((strtParameter*)parm_aux)->rho<<"| Xi: "<<((strtParameter*)parm_aux)->xi<<"| Phase: "<<((strtParameter*)parm_aux)->phase<<"| a: "<<((strtParameter*)parm_aux)->a<<"| b: "<<((strtParameter*)parm_aux)->b<< endl;
 
 
         if (flag_stage==1)
@@ -6133,9 +6133,9 @@ void CExpDictionary::adjustParameters(  cgMatrix<double>& residue,
     // if (fabs(((strtParameter*)parm)->rho) < 1.0/88888.0)
     // {
     //     ((strtParameter*)parm)->rho=0.0;
-        
+
     //     setRealAtom(parm);
-        
+
     //     innerProd = residue * m_realAtom;// (realAtomVector.transpose());
     //     ((strtParameter*)parm)->innerProduct = innerProd.getData(0,0);
     // }
@@ -6275,19 +6275,26 @@ void CGaborDictionary::setComplexAtom(strtParameter* parm)
         {
             m_complexAtom[i] = CComplex(0,0,1);
 
+
             if (xi!=0)
             {
-                m_complexAtom[i] = CComplex(pow(2,0.25) * ( cos( (xi*(double)i) ) ), 
-                                    ( pow(2,0.25) * sin( (xi*(double)i) ) ), 
-                                    1);        
+                m_complexAtom[i] = CComplex(pow(2,0.25) * ( cos( (xi*(double)i) ) ),
+                                    ( pow(2,0.25) * sin( (xi*(double)i) ) ),
+                                    1);
+
             }
             else
             {
-                m_complexAtom[i] = CComplex(pow(2,0.25) * 1.0, //( cos( (xi*(double)i) ) ) 
+                m_complexAtom[i] = CComplex(1.0, //( cos( (xi*(double)i) ) )
                                     0.0, //( sin( (xi*(double)i) ) )
                                     1);
+                /*
+                m_complexAtom[i] = CComplex(pow(2,0.25) * 1.0, //( cos( (xi*(double)i) ) )
+                                    0.0, //( sin( (xi*(double)i) ) )
+                                    1);
+                */
             }
-
+            //cout << "-- " << m_complexAtom[i].Real()<< endl ;
             if ( fabs(real_peak) < fabs(m_complexAtom[i].Real()) ) real_peak = m_complexAtom[i].Real();
             if ( fabs(imag_peak) < fabs(m_complexAtom[i].Imag()) ) imag_peak = m_complexAtom[i].Imag();
         }
@@ -6306,9 +6313,14 @@ void CGaborDictionary::setComplexAtom(strtParameter* parm)
             }
             else
             {
+                m_complexAtom[i] = CComplex(1.0, //* cos(xi*double(i))),
+                                            0.0, //(exp(-PI*pow((double((i-u))/double(s)),2))* sin(xi*double(i))),
+                                            1);
+                /*
                 m_complexAtom[i] = CComplex(pow(2,0.25) * (exp(-PI*pow((double((i-u))/double(s)),2))), //* cos(xi*double(i))),
                                             0.0, //(exp(-PI*pow((double((i-u))/double(s)),2))* sin(xi*double(i))),
                                             1);
+                */
             }
 
             if ( fabs(real_peak) < fabs(m_complexAtom[i].Real()) ) real_peak = m_complexAtom[i].Real();
@@ -6341,11 +6353,11 @@ void CGaborDictionary::setRealAtom(strtParameter* parm)
             m_realAtom[i] = pow(2,0.25) * exp( - PI* pow( (((double)i-u)/(double)s),2 )) * ( cos( (xi*(double)i) + phi  ) );
         else
             m_realAtom[i] = pow(2,0.25) * exp( - PI* pow( (((double)i-u)/(double)s),2 )) * ( cos( phi ) );
-
+        //cout<<m_realAtom[i];
         if ( fabs(peak) < fabs(m_realAtom[i]) ) peak = m_realAtom[i];
     }
 
-    
+
 
     if (fabs(peak) < 1e-10)
     {
@@ -6379,7 +6391,7 @@ void CGaborDictionary::setRealAtom(strtParameter* parm)
         }
     }
 
-    // cout << s << ' ' << xi << ' ' << u << endl;
+     //cout << m_signalSize<<" " <<s << ' ' << xi << ' ' << u << endl;
     // saveRealParm2TxtFile("realAtom.out", s, xi, u);
 
 }
@@ -6404,18 +6416,18 @@ double* CGaborDictionary::getRealAtom()
     return m_realAtom;
 }
 
-// void executeDecomp(             CDataSignal* dataSignal, 
+// void executeDecomp(             CDataSignal* dataSignal,
 //                                 CStructBook** structBook,
-//                                 CFileGenData* genData,                                
+//                                 CFileGenData* genData,
 //                                 CFileDictionary* dicData)
-// {   
+// {
 //     0;
 //     return;
 // }
 
 // void executeDecompElectric(         CDataSignal* dataSignal,
 //                                     CStructBook** structBook,
-//                                     CFileDecomp* genData,            
+//                                     CFileDecomp* genData,
 //                                     CFileDictionary* dicData,
 //                                     CFileDecompBlockRange* blockRange)
 // {
@@ -6430,7 +6442,7 @@ double* CGaborDictionary::getRealAtom()
 // }
 
 // double CGaborDictionary::computeUnormRAtomSampleSigSize(  strtParameter* parm,
-//                                         int t, 
+//                                         int t,
 //                                         int signalSize)
 // {
 
@@ -6438,7 +6450,7 @@ double* CGaborDictionary::getRealAtom()
 
 // ---- Optimum phase computation
 
-double CGaborDictionary::computeOptimumPhase(   cgMatrix<double>& residue, 
+double CGaborDictionary::computeOptimumPhase(   cgMatrix<double>& residue,
                                                 double xi)
 {
     double opt_phase = 0;
@@ -6501,7 +6513,7 @@ double CGaborDictionary::computeOptimumPhase(   cgMatrix<double>& residue,
     return opt_phase;
 }
 
-double CGaborDictionary::computeOptimumPhase(   cgMatrix<double>& residue, 
+double CGaborDictionary::computeOptimumPhase(   cgMatrix<double>& residue,
                                                 double xi,
                                                 double& innerProd)
 {
@@ -6745,7 +6757,7 @@ void CGaborDictionary::saveRealParm2TxtFile(char* fileName, int s, double xi, in
 {
     ofstream stream;
     stream.open(fileName, ios::out | ios::app | ios::ate);
-    
+
     stream << " realAtom " << endl;
     stream << setw(4) << s << setw(10) << xi << setw(4) << u << endl;
 
@@ -6860,7 +6872,7 @@ void CTriangDictionary::setRealAtom(strtParameter* parm)
     for ( i = 0;i<m_signalSize; i++)
     {
         m_realAtom[i] = 0;
-        
+
         if (i <= TL && TC != TL)
         {
             m_realAtom[i] = 0;
@@ -6936,7 +6948,7 @@ double* CTriangDictionary::getRealAtom()
     // cout << "AQUI" << endl;
 }
 
-double CTriangDictionary::computeOptimumPhase(   cgMatrix<double>& residue, 
+double CTriangDictionary::computeOptimumPhase(   cgMatrix<double>& residue,
                                                 double xi)
 {
     double opt_phase = 0;
@@ -6999,7 +7011,7 @@ double CTriangDictionary::computeOptimumPhase(   cgMatrix<double>& residue,
     return opt_phase;
 }
 
-double CTriangDictionary::computeOptimumPhase(   cgMatrix<double>& residue, 
+double CTriangDictionary::computeOptimumPhase(   cgMatrix<double>& residue,
                                                 double xi,
                                                 double& innerProd)
 {
@@ -7239,7 +7251,7 @@ void CTriangDictionary::saveRealParm2TxtFile(char* fileName, int s, double xi, i
 {
     ofstream stream;
     stream.open(fileName, ios::out | ios::app | ios::ate);
-    
+
     stream << " realAtom " << endl;
     stream << setw(4) << s << setw(10) << xi << setw(4) << u << endl;
 
@@ -7289,7 +7301,7 @@ void CBatemanDictionary::setComplexAtom(strtParameter* parm)
     int a = ((strtParameter*)parm)->a;
     int b = ((strtParameter*)parm)->b;
     double s = 1.0/rho;
-    //cout << beta <<" "<<rho << " " << xi << " " << " " << a << " " << b << endl; 
+    //cout << beta <<" "<<rho << " " << xi << " " << " " << a << " " << b << endl;
 
     u = a;
     for( i=0;i<m_signalSize; i++)   //for( i=0;i<m_signalSize; i++)
@@ -7317,7 +7329,7 @@ void CBatemanDictionary::setComplexAtom(strtParameter* parm)
         {
          real_peak = m_complexAtom[i].Real();
         }
-        if ( fabs(imag_peak) < fabs(m_complexAtom[i].Imag()) ) 
+        if ( fabs(imag_peak) < fabs(m_complexAtom[i].Imag()) )
         {
             imag_peak = m_complexAtom[i].Imag();
         }
@@ -7349,7 +7361,7 @@ void CBatemanDictionary::setRealAtom(strtParameter* parm)
     int a = ((strtParameter*)parm)->a;
     int b = ((strtParameter*)parm)->b;
 
-    // cout << rho << " " << xi << " " << phi << " " << a << " " << b << endl; 
+    // cout << rho << " " << xi << " " << phi << " " << a << " " << b << endl;
      double s =1.0/rho;
     u = a;
     for(i=0; i < m_signalSize; i++)
@@ -7365,9 +7377,9 @@ void CBatemanDictionary::setRealAtom(strtParameter* parm)
             //m_realAtom[i] = ( exp( -( i-(rho* (double)u )) ) - exp( (-beta*(double)( ((double)i/rho)-u )) ) ) * cos ( phi );
            // cout <<"HEY("<< m_realAtom[i]<<endl;
         }
-        
 
-        if ( fabs(peak) < fabs(m_realAtom[i]) ) 
+
+        if ( fabs(peak) < fabs(m_realAtom[i]) )
         {
             peak = m_realAtom[i];
         }
@@ -7406,7 +7418,7 @@ void CBatemanDictionary::setRealAtom(strtParameter* parm)
 
         // ======================
         if ( norm == 0 )
-        { 
+        {
             norm = 1;
         }
         // ======================
@@ -7445,7 +7457,7 @@ double* CBatemanDictionary::getRealAtom()
     return m_realAtom;
 }
 
-double CBatemanDictionary::computeOptimumPhase(   cgMatrix<double>& residue, 
+double CBatemanDictionary::computeOptimumPhase(   cgMatrix<double>& residue,
                                                 double xi)
 {
     //cout<<"computeOptimumPhase"<<endl;
@@ -7509,11 +7521,11 @@ double CBatemanDictionary::computeOptimumPhase(   cgMatrix<double>& residue,
     return opt_phase;
 }
 
-double CBatemanDictionary::computeOptimumPhase(   cgMatrix<double>& residue, 
+double CBatemanDictionary::computeOptimumPhase(   cgMatrix<double>& residue,
                                                 double xi,
                                                 double& innerProd)
 {
-    cout <<"OptParm"<<endl; 
+    cout <<"OptParm"<<endl;
     double opt_phase = 0;
     int i;
     cgMatrix<double> realPartComplexDic(1,m_signalSize,0.0);
@@ -7674,17 +7686,17 @@ void CBatemanDictionary::optimizeContinuousParms(   cgMatrix<double>& residue,
 //cout <<"incbeta"<<increment_beta<<"  "<<"incrho"<<increment_rho <<endl;
 //cout <<"limbeta"<<beta_lim<<"   "<<"rho_lim "<<rho_lim<<endl;
         while( (fabs(increment_beta) > beta_lim) ||
-                (fabs(increment_rho)  > rho_lim) || 
+                (fabs(increment_rho)  > rho_lim) ||
                 (fabs(increment_u)  > u_lim) )
-                /*(fabs(increment_xi) > xi_lim)*/ 
+                /*(fabs(increment_xi) > xi_lim)*/
         {
   //          cout <<"Qua"<<beta_lim<<endl;
            // if(rho<beta)
            // {
-                
+
                 if (time==0) // xi_fix, rho_aux, u_fix
                 {
-    //               cout <<"opaaa"<<rho_aux<<endl; 
+    //               cout <<"opaaa"<<rho_aux<<endl;
                 ((strtParameter*)parm_aux)->rho=rho_aux;
       //          cout <<"opaaa"<<rho_aux<<endl;
                 //((strtParameter*)parm_aux)->xi       = xi_fix;
@@ -7740,7 +7752,7 @@ void CBatemanDictionary::optimizeContinuousParms(   cgMatrix<double>& residue,
                 setRealAtom(parm_aux);
 
                 }
-                
+
                 if (time==2) // xi_fix, rho_fix, u_aux
                 {
                     ((strtParameter*)parm_aux)->rho      = rho_fix;
@@ -7865,7 +7877,7 @@ void CBatemanDictionary::optimizeContinuousParms(   cgMatrix<double>& residue,
                     incr_count = 0;
                 }
 
-                    if (fabs(rho_fix) < 1e-20) 
+                    if (fabs(rho_fix) < 1e-20)
                         {
                             break;
                         }
@@ -8111,7 +8123,7 @@ void CBatemanDictionary::saveRealParm2TxtFile(char* fileName, double s, double x
 {
     ofstream stream;
     stream.open(fileName, ios::out | ios::app | ios::ate);
-    
+
     stream << " realAtom " << endl;
     stream << setw(4) << s << setw(10) << xi << setw(4) << u << endl;
 
@@ -8137,5 +8149,782 @@ void CBatemanDictionary::saveComplexParm2TxtFile(char* fileName, double s, doubl
     }
 }
 
-// // Maximize approximation by finding optimum parameters
 
+
+// // Maximize approximation by finding optimum parameters
+// CHI2
+
+void CChi2Dictionary::setSignalSize(int signalSize)
+{
+    m_signalSize = signalSize;
+    if (m_complexAtom) delete [] m_complexAtom;
+    if (m_realAtom) delete [] m_realAtom;
+    m_complexAtom = new CComplex[signalSize];
+    m_realAtom = new double[signalSize];
+}
+
+void CChi2Dictionary::setComplexAtom(strtParameter* parm)
+{
+    int i;
+    int u;
+    double real_peak=0;
+    double imag_peak=0;
+
+    double rho = ((strtParameter*)parm)->rho;
+    double beta = ((strtParameter*)parm)->beta;
+    double xi = ((strtParameter*)parm)->xi;
+    int a = ((strtParameter*)parm)->a;
+    int b = ((strtParameter*)parm)->b;
+    double phi = ((strtParameter*)parm)->phase;
+    double s = 1.0/rho;
+    //cout << beta <<" "<<rho << " " << xi << " " << " " << a << " " << b << endl;
+
+    u = a;
+    for( i=0;i<m_signalSize; i++)   //for( i=0;i<m_signalSize; i++)
+    {
+        m_complexAtom[i] = CComplex(0,0,1);
+        if(i>= u)
+        {
+            if(xi!=0)
+            {
+                m_complexAtom[i] = CComplex( (pow(((double)i-u),(beta/2)-1)*exp(-((double)i-u)/2))/(s*pow(2,(beta/2))*tgamma(beta/2))*cos((xi*(double)i)+phi), // sqrt(2*rho),//(double)signalSize,
+                                    (pow(((double)i-u),(beta/2)-1)*exp(-((double)i-u)/2))/(s*pow(2,(beta/2))*tgamma(beta/2)) * ( sin( (xi*(double)i) ) ), // sqrt(2*rho),//(double)signalSize,
+                                    1);
+            }
+            else
+            {
+                m_complexAtom[i] = CComplex( 1/*( exp( (-rho*(double)( (double)i-u )) ) - exp( (-beta*(double)( (double)i-u )) ) ) */, // sqrt(2*rho), // (double)signalSize,
+                                    0.0,//exp( (-rho*(double)( (double)i-u )) ),// sqrt(2*rho), // (double)signalSize,
+                                    1);
+                //cout<<"hey"<<rho<<"----Cals"<<m_complexAtom[i].Real()<< endl;
+
+            }
+        }
+
+        if ( fabs(real_peak) < fabs(m_complexAtom[i].Real()) )
+        {
+         real_peak = m_complexAtom[i].Real();
+        }
+        if ( fabs(imag_peak) < fabs(m_complexAtom[i].Imag()) )
+        {
+            imag_peak = m_complexAtom[i].Imag();
+        }
+    }
+
+    for(i = 0; i < a; i++)
+    {
+        m_complexAtom[i] = CComplex(0,0,1);
+    }
+
+    for(i = m_signalSize - 1; i > b; i--)
+    {
+        m_complexAtom[i] = CComplex(0,0,1);
+    }
+    //cout << rho << " " << xi << " " << " " << a << " " << b << endl;
+}
+
+void CChi2Dictionary::setRealAtom(strtParameter* parm)
+{
+    int i;
+    double norm;
+    int u;
+    double peak=0;
+
+    double rho = ((strtParameter*)parm)->rho;
+    double beta = ((strtParameter*)parm)->beta;
+    double xi = ((strtParameter*)parm)->xi;
+    double phi = ((strtParameter*)parm)->phase;
+    int a = ((strtParameter*)parm)->a;
+    int b = ((strtParameter*)parm)->b;
+
+    // cout << rho << " " << xi << " " << phi << " " << a << " " << b << endl;
+     double s =1.0/rho;
+    u = a;
+    for(i=0; i < m_signalSize; i++)
+    {
+        m_realAtom[i]=0;
+        if(i >= u)
+        {
+            if(xi!=0)
+               // m_realAtom[i] = ( exp( (-rho*(double)( (double)i-u )) ) - exp( (-beta*(double)( (double)i-u )) ) ) * cos ( (xi*(double)i) + phi );
+                m_realAtom[i] = (pow(((double)i-u),(beta/2)-1)*exp(-((double)i-u)/2))/(s*pow(2,(beta/2))*tgamma(beta/2))*cos((xi*(double)i)+phi);
+            else
+                m_realAtom[i] = (pow(((double)i-u),(beta/2)-1)*exp(-((double)i-u)/2))/(s*pow(2,(beta/2))*tgamma(beta/2))*cos(phi);
+            //m_realAtom[i] = ( exp( -( i-(rho* (double)u )) ) - exp( (-beta*(double)( ((double)i/rho)-u )) ) ) * cos ( phi );
+           // cout <<"HEY("<< m_realAtom[i]<<endl;
+        }
+
+
+        if ( fabs(peak) < fabs(m_realAtom[i]) )
+        {
+            peak = m_realAtom[i];
+        }
+    }
+
+    if (fabs(peak) < 1e-10)
+    {
+        for(i = 0; i < m_signalSize ; i++)
+        {
+            m_realAtom[i] = 0;
+        }
+    }
+
+    else
+    {
+        //========================
+        for(i = 0; i < a; i++)
+        {
+            m_realAtom[i] = 0;
+        }
+
+        for(i = m_signalSize - 1; i > b; i--)
+        {
+            m_realAtom[i] = 0;
+        }
+        // ======================
+        // Calculate norm
+        norm = 0;
+        for(i=0; i < m_signalSize; i++)
+        {
+            norm += m_realAtom[i] * m_realAtom[i];
+        }
+        norm = sqrt(norm);
+
+        m_rAtomNorm = norm;
+
+        // ======================
+        if ( norm == 0 )
+        {
+            norm = 1;
+        }
+        // ======================
+
+        for(i=0; i<m_signalSize; i++)
+        {
+            m_realAtom[i] = m_realAtom[i] / norm;
+        }
+
+    }
+
+     //cout << rho << "  "<< xi << "  "<< beta <<"   "<< u <<""<<phi << endl;
+    //for(i=0; i < m_signalSize; i++)
+    //{
+     //cout << m_realAtom[i]<<endl;
+    //}
+    // saveRealParm2TxtFile("realAtom.out", s, 0, u);
+
+}
+
+int CChi2Dictionary::getSignalSize()
+{
+    //cout<< "HERE0"<< endl;
+    return m_signalSize;
+}
+
+CComplex* CChi2Dictionary::getComplexAtom()
+{
+    //cout << "AQUI2" << endl;
+    return m_complexAtom;
+}
+
+double* CChi2Dictionary::getRealAtom()
+{
+    //cout << "AQUI5" << endl;
+    return m_realAtom;
+}
+
+double CChi2Dictionary::computeOptimumPhase(   cgMatrix<double>& residue,
+                                                double xi)
+{
+    //cout<<"computeOptimumPhase"<<endl;
+    double opt_phase = 0;
+    int i;
+    cgMatrix<double> realPartComplexDic(1,m_signalSize,0.0);
+    cgMatrix<double> imagPartComplexDic(1,m_signalSize,0.0);
+
+    for ( i=0;i<m_signalSize;i++)
+    {
+        realPartComplexDic[0][i] = m_complexAtom[i].Real();
+        imagPartComplexDic[0][i] = m_complexAtom[i].Imag();
+    }
+
+    double innerProdReal=0;
+    double innerProdImag=0;
+    double innerProdRealImag=0;
+    for (i=0;i< m_signalSize;i++)
+    {
+        innerProdReal += residue.getData(0,i) * m_complexAtom[i].Real();
+        innerProdImag += residue.getData(0,i) * m_complexAtom[i].Imag();
+        innerProdRealImag += m_complexAtom[i].Real() * m_complexAtom[i].Imag();
+    }
+
+    cgMatrix<double> innerProductReal(1,1,innerProdReal);
+    cgMatrix<double> innerProductImag(1,1,innerProdImag);
+    //innerProductReal = residue * (realPartComplexDic.transpose());
+    //innerProductImag = residue * (imagPartComplexDic.transpose());
+
+    double p,q ;
+    p = realPartComplexDic.norm();
+    q = imagPartComplexDic.norm();
+
+    cgMatrix<double> innerProductRealImag(1,1,innerProdRealImag);
+    //innerProductRealImag = realPartComplexDic * (imagPartComplexDic.transpose());
+
+    cgMatrix<double> a1;
+    cgMatrix<double> b1;
+    a1 = innerProductReal*(q*q) - innerProductImag * innerProductRealImag;
+    b1 = innerProductImag*(p*p) - innerProductReal * innerProductRealImag;
+
+    double innerProd;
+    if ( (xi == 0) ||
+        ((int)(10000*xi) == (int)(10000*PI))) //caso n�o haja sen�ide
+    {
+        opt_phase = 0;
+        innerProd = innerProductReal[0][0]/p;
+    }
+    else if (a1.getData(0,0) == 0)
+    {
+        opt_phase = (double)(PI/2);
+        innerProd = -innerProductImag[0][0]/q;
+    }
+    else if (   (a1.getData(0,0)!=0) && (xi!=0) )
+    {
+        opt_phase = atan( -(b1.getData(0,0)/a1.getData(0,0)) );
+        innerProd = (a1[0][0]/fabs(a1[0][0]))*(innerProductReal[0][0]*a1[0][0] + innerProductImag[0][0]*b1[0][0])/
+        sqrt(a1[0][0]*a1[0][0]*p*p+b1[0][0]*b1[0][0]*q*q+2*a1[0][0]*b1[0][0]*innerProductRealImag[0][0]);
+    }
+
+    return opt_phase;
+}
+
+double CChi2Dictionary::computeOptimumPhase(   cgMatrix<double>& residue,
+                                                double xi,
+                                                double& innerProd)
+{
+    cout <<"OptParm"<<endl;
+    double opt_phase = 0;
+    int i;
+    cgMatrix<double> realPartComplexDic(1,m_signalSize,0.0);
+    cgMatrix<double> imagPartComplexDic(1,m_signalSize,0.0);
+
+    for ( i=0;i<m_signalSize;i++)
+    {
+        realPartComplexDic[0][i] = m_complexAtom[i].Real();
+        imagPartComplexDic[0][i] = m_complexAtom[i].Imag();
+    }
+
+    double innerProdReal=0;
+    double innerProdImag=0;
+    double innerProdRealImag=0;
+    for (i=0;i< m_signalSize;i++)
+    {
+        innerProdReal += residue.getData(0,i) * m_complexAtom[i].Real();
+        innerProdImag += residue.getData(0,i) * m_complexAtom[i].Imag();
+        innerProdRealImag += m_complexAtom[i].Real() * m_complexAtom[i].Imag();
+    }
+
+    cgMatrix<double> innerProductReal(1,1,innerProdReal);
+    cgMatrix<double> innerProductImag(1,1,innerProdImag);
+
+    double p,q ;
+    p = realPartComplexDic.norm();
+    q = imagPartComplexDic.norm();
+
+    cgMatrix<double> innerProductRealImag(1,1,innerProdRealImag);
+
+    cgMatrix<double> a1;
+    cgMatrix<double> b1;
+    a1 = innerProductReal*(q*q) - innerProductImag * innerProductRealImag;
+    b1 = innerProductImag*(p*p) - innerProductReal * innerProductRealImag;
+
+    if ( (xi == 0) ||
+        ((int)(10000*xi) == (int)(10000*PI))) //caso n�o haja sen�ide
+    {
+        opt_phase = 0;
+        innerProd = innerProductReal[0][0]/p;
+    }
+    else if (a1.getData(0,0) == 0)
+    {
+        opt_phase = (double)(PI/2);
+        innerProd = -innerProductImag[0][0]/q;
+    }
+    else if (   (a1.getData(0,0)!=0) && (xi!=0) )
+    {
+        opt_phase = atan( -(b1.getData(0,0)/a1.getData(0,0)) );
+        innerProd = (a1[0][0]/fabs(a1[0][0]))*(innerProductReal[0][0]*a1[0][0] + innerProductImag[0][0]*b1[0][0])/
+        sqrt(a1[0][0]*a1[0][0]*p*p+b1[0][0]*b1[0][0]*q*q+2*a1[0][0]*b1[0][0]*innerProductRealImag[0][0]);
+    }
+
+    return opt_phase;
+}
+
+// // Maximize approximation by finding optimum parameters
+void CChi2Dictionary::optimizeContinuousParms(   cgMatrix<double>& residue,
+                                                strtParameter* parm)
+{
+
+
+    //CDictionary * bateDic = new CBatemanDictionary;
+    strtParameter* parm_aux = new strtParameter;
+    //strtParameter* parm_aux;
+    //parm_aux = new CExpParm;
+    ((strtParameter)*parm_aux)=((strtParameter)*parm);
+    //parm_aux=parm;
+    //cout <<"opaaa"<<((strtParameter*)parm)->dicType<<endl;
+    //cout <<"opaaa"<<((strtParameter*)parm_aux)->dicType<<endl;
+
+    if (((strtParameter*)parm)->a != ((strtParameter*)parm)->b) // NOT impulse case; if impulse case, do nothing
+    {
+
+        double rho, u, xi, phase,beta;
+
+        //Rise factor
+        beta = ((strtParameter*)parm)->beta;
+        //cout << "Beta - "<<beta<< endl;
+
+
+        // decaying factor
+        rho = ((strtParameter*)parm)->rho;
+        //cout << "Rho - "<<rho<< endl;
+        // time shift
+        //if (rho>=0.0)
+        u = ((strtParameter*)parm)->a;
+        //else
+         //   u = ((strtParameter*)parm)->b;
+        // frequency
+        //xi = ((strtParameter*)parm)->xi;
+
+        phase = ((strtParameter*)parm)->phase;
+
+
+        // Define inner product
+        double highestProduct;
+        highestProduct = ((strtParameter*)parm)->innerProduct;
+        //cout << "HighProd - "<<highestProduct<< endl;
+
+        // =======================================
+        double increment_rho, rho_aux, rho_fix;
+
+        increment_rho =  rho * 0.5;  //((double)expDic.getSignalSize()/2.0);
+        rho_aux = increment_rho + rho;
+        rho_fix = rho;
+
+        double increment_u, u_aux, u_fix;
+
+        //if (rho!=0.0)
+            increment_u = 1.0 / (2.0 * rho);
+        //else
+         //   increment_u = (double)m_signalSize / 2.0;
+        u_aux = increment_u + u;
+        u_fix = u;
+
+        if(u_aux>(m_signalSize-1))
+            u_aux = m_signalSize-1;
+        if(u_aux<0) u_aux =0;
+
+        //double increment_xi, xi_aux, xi_fix;
+
+        //increment_xi = rho * (PI) ;
+        //xi_aux = increment_xi + xi;
+        //xi_fix = xi;
+
+        double increment_beta, beta_aux, beta_fix;
+
+        increment_beta = beta*0.5 ; // ****
+        beta_aux = increment_beta + beta;
+        beta_fix = beta;
+
+        // =========================
+        // Pseudo-Newton
+        //cout << "Pseudo-Newton" << endl;
+
+        int time = 0;
+
+        double ph_fix = phase;
+
+        double u_lim  = 1.0 /  (double) ( 2 * ( m_signalSize ) * ( m_signalSize ) );
+        //double xi_lim = 1.0 /  (double) ( 2 * ( m_signalSize ) * ( m_signalSize ) );
+        double beta_lim =1.0 /  (double) ( 2 * ( m_signalSize ) * ( m_signalSize ) );
+        double rho_lim  =1.0 / (double) ( 2 * ( m_signalSize ) * ( m_signalSize ) );
+
+        //cout << "rho_lim: " << rho_lim << "u_lim: " << u_lim << "xi_lim: " << xi_lim << endl;
+
+        /*ofstream outOptFile("epss_opt_atom_cont_param.dat",ios::out);
+
+        outOptFile << step << ' ' << s_fix << ' ' << u_fix  << ' '
+            << xi_fix << ' ' << increment_s << ' ' << increment_u << ' '
+            << increment_xi << '\n';
+        */
+//cout <<"sigSize"<<m_signalSize<<endl;//"  "<<"incrho"<<increment_rho <<endl;
+        int incr_count=0;
+        cgMatrix<double> innerProduct;
+        double opt_phase = phase;
+//cout <<"incbeta"<<increment_beta<<"  "<<"incrho"<<increment_rho <<endl;
+//cout <<"limbeta"<<beta_lim<<"   "<<"rho_lim "<<rho_lim<<endl;
+        while( (fabs(increment_beta) > beta_lim) ||
+                (fabs(increment_rho)  > rho_lim) ||
+                (fabs(increment_u)  > u_lim) )
+                /*(fabs(increment_xi) > xi_lim)*/
+        {
+  //          cout <<"Qua"<<beta_lim<<endl;
+           // if(rho<beta)
+           // {
+
+                if (time==0) // xi_fix, rho_aux, u_fix
+                {
+    //               cout <<"opaaa"<<rho_aux<<endl;
+                ((strtParameter*)parm_aux)->rho=rho_aux;
+      //          cout <<"opaaa"<<rho_aux<<endl;
+                //((strtParameter*)parm_aux)->xi       = xi_fix;
+                ((strtParameter*)parm_aux)->beta       = beta_fix;
+                ((strtParameter*)parm_aux)->phase    = 0.0;
+                //if (rho>=0.0)
+                //{
+                    ((strtParameter*)parm_aux)->a        = (int)u_fix;
+                    ((strtParameter*)parm_aux)->b        = m_signalSize-1;
+                //}
+                //else
+                //{
+                //    ((strtParameter*)parm_aux)->a        = 0;
+                //    ((strtParameter*)parm_aux)->b        = (int)u_fix;
+                //}
+                //((CBatemanDictionary*)bateDic)->setComplexAtom(parm_aux);
+        //        cout<<"Eitaaa"<<endl;
+                setComplexAtom(parm_aux);
+                //cout <<"opaaa"<<rho_aux<<endl;
+
+                // Computing optimum phase
+               // opt_phase = computeOptimumPhase(residue,
+                 //                               xi);
+
+                //((strtParameter*)parm_aux)->phase    = opt_phase;
+                setRealAtom(parm_aux);
+
+                }
+
+                if (time==1) // xi_aux, rho_fix, u_fix
+                {
+                ((strtParameter*)parm_aux)->rho      = rho_fix;
+                //((strtParameter*)parm_aux)->xi       = xi_aux;
+                ((strtParameter*)parm_aux)->beta      = beta_aux;
+                ((strtParameter*)parm_aux)->phase    = 0.0;
+                //if (rho>=0.0)
+                //{
+                   ((strtParameter*)parm_aux)->a        = (int)u_fix;
+                    ((strtParameter*)parm_aux)->b        = m_signalSize-1;
+                //}
+                //else
+                //{
+                //   ((strtParameter*)parm_aux)->a        = 0;
+                //    ((strtParameter*)parm_aux)->b        = (int)u_fix;
+                //}
+                setComplexAtom(parm_aux);
+
+                // Computing optimum phase
+                //opt_phase = computeOptimumPhase(residue,
+                     //                           xi);
+
+                //((strtParameter*)parm_aux)->phase    = opt_phase;
+                setRealAtom(parm_aux);
+
+                }
+
+                if (time==2) // xi_fix, rho_fix, u_aux
+                {
+                    ((strtParameter*)parm_aux)->rho      = rho_fix;
+                    //((strtParameter*)parm_aux)->xi       = xi_fix;
+                    ((strtParameter*)parm_aux)->beta       = beta_fix;
+                    ((strtParameter*)parm_aux)->phase    = 0.0;
+                    if (rho>=0.0)
+                    {
+                        ((strtParameter*)parm_aux)->a        = (int)u_aux;
+                        ((strtParameter*)parm_aux)->b        = m_signalSize-1;
+                    }
+                    else
+                    {
+                        ((strtParameter*)parm_aux)->a        = 0;
+                        ((strtParameter*)parm_aux)->b        = (int)u_aux;
+                    }
+                    setComplexAtom(parm_aux);
+
+                    // Computing optimum phase
+                    opt_phase = computeOptimumPhase(residue,
+                                                    xi);
+
+                    ((strtParameter*)parm_aux)->phase    = opt_phase;
+                    setRealAtom(parm_aux);
+
+                }
+
+                //realAtomVector.fillVector(realAtom);
+
+                //realAtomVector.PrintToFile("atom.dat");
+                //residue.PrintToFile("residue.dat");
+
+                    innerProduct = residue * m_realAtom;//( realAtomVector.transpose() );
+
+                //cout << "rho_fix: " << rho_fix << "u_fix: " << u_fix << "xi_fix: " << xi_fix << endl;
+                //cout << "rho_aux: " << rho_aux << "u_aux: " << u_aux << "xi_aux: " << xi_aux << endl;
+                //cout << "PP: " << innerProduct.getData(0,0) << endl;
+                        //double teste = innerProduct.getData(0,0);
+                        //cout<<"teste"<<teste<<endl;
+                if( fabs(innerProduct.getData(0,0)) > fabs(highestProduct) )
+                {
+                    // Greater Product
+                    highestProduct = innerProduct.getData(0,0);
+                    //cout << "HighProd - "<<highestProduct<< endl;
+                    if(time==0)
+                    {
+                        rho_fix = rho_aux;
+                        rho_aux = rho_fix + increment_rho;
+                        //ph_fix = opt_phase;
+
+                        increment_rho = pow(2.0,(double)incr_count) * increment_rho ;
+                    }
+                    if(time==1)
+                    {
+                        //xi_fix = xi_aux;
+                        //xi_aux = xi_fix + increment_xi;
+                        //ph_fix = opt_phase;
+
+                        //increment_xi = /*pow(2.0,(double)incr_count)*/2.0 * increment_xi ;
+
+
+                        beta_fix = beta_aux;
+                        beta_aux = beta_fix + increment_beta;
+                       //ph_fix = opt_phase;
+
+                        //increment_beta = /*pow(2.0,(double)incr_count)*/2.0 * increment_beta ; //****
+                        increment_beta = pow(2.0,(double)incr_count)* increment_beta ; //****
+                    }
+                    if(time==2)
+                    {
+                        u_fix = u_aux;
+                        u_aux = u_fix + increment_u;
+                        ph_fix = opt_phase;
+
+                        if (u_aux > (m_signalSize - 1) )
+                            u_aux = m_signalSize - 1;
+                        if (u_aux<0) u_aux=0;
+
+                        increment_u = pow(2.0,(double)incr_count) * increment_u ;
+                    }
+
+                    incr_count++;
+                }
+                else
+                {
+                    //cout<<"Menor"<<endl;
+                    // Smaller product
+                    if(time==0)
+                    {
+                        increment_rho = increment_rho/pow(2.0,(double)incr_count);
+                        increment_rho= - (increment_rho/2.0);
+                        rho_aux = rho_fix + increment_rho;
+                        ((strtParameter*)parm_aux)->rho      = rho_fix;
+
+                    }
+                    if(time==1)
+                    {
+                        //increment_xi = - (increment_xi/2.0);
+                        //xi_aux = xi_fix + increment_xi;
+
+                        increment_beta =increment_beta/pow(2.0,(double)incr_count);
+                        increment_beta = - (increment_beta)/2.0;
+                        beta_aux = beta_fix + increment_beta;
+                        ((strtParameter*)parm_aux)->beta      = beta_fix;
+                    }
+                    if(time==2)
+                    {
+                        increment_u = - (increment_u/2.0);
+                        u_aux = u_fix + increment_u - 0.5;
+
+                        if (u_aux>(m_signalSize - 1))
+                            u_aux = m_signalSize - 1;
+
+                        if (u_aux<0) u_aux=0;
+                    }
+
+                    time++;
+                    //cout<<"time"<<time<<endl;
+                    //time = time % 3;
+                    time = time % 3;
+
+                    incr_count = 0;
+                }
+
+                    if (fabs(rho_fix) < 1e-20)
+                        {
+                            break;
+                        }
+
+                    /*outOptFile << step << ' ' << s_fix << ' ' << u_fix  << ' '
+                    << xi_fix << ' ' << increment_s << ' ' << increment_u << ' '
+                     << increment_xi << '\n';
+                     */
+
+           // }
+        }
+
+                    // Ajust parameters
+                    /*if (xi_fix < 0) xi_fix = xi_fix + 2*PI;
+                    if (xi_fix > 2*PI) xi_fix = xi_fix - 2*PI;
+
+                    if (fabs(rho_fix) < 1e-20) // pure sinusoid
+                    {
+                        ((strtParameter*)parm_aux)->rho      = 0.0;
+                        ((strtParameter*)parm_aux)->xi       = xi_fix;
+                        ((strtParameter*)parm_aux)->phase    = 0.0;
+                        if (rho>=0.0)
+                        {
+                            ((strtParameter*)parm_aux)->a        = (int)u_aux;
+                            ((strtParameter*)parm_aux)->b        = m_signalSize-1;
+                        }
+                        else
+                        {
+                            ((strtParameter*)parm_aux)->a        = 0;
+                            ((strtParameter*)parm_aux)->b        = (int)u_aux;
+                        }*/
+                        //setComplexAtom(parm_aux);
+
+                        // Computing optimum phase
+                        //opt_phase = computeOptimumPhase(residue,xi);
+
+                        //((strtParameter*)parm_aux)->phase    = opt_phase;
+                        //setRealAtom(parm_aux);
+
+                        //realAtomVector.fillVector(realAtom);
+
+                        //innerProduct = residue * m_realAtom;
+
+
+                    //}
+                        //double teste = innerProduct.getData(0,0);
+                        //cout<<"teste"<<teste<<endl;
+                    ((strtParameter*)parm)->innerProduct =highestProduct;//innerProduct.getData(0,0);
+                    //cout<<"IP"<<((strtParameter*)parm)->innerProduct<<endl;
+                    ((strtParameter*)parm)->rho = ((strtParameter*)parm_aux)->rho;
+                    //cout<<"RHO"<<((strtParameter*)parm)->rho<<endl;
+                    ((strtParameter*)parm)->beta = ((strtParameter*)parm_aux)->beta;
+                    ((strtParameter*)parm)->xi = ((strtParameter*)parm_aux)->xi;
+                    ((strtParameter*)parm)->phase = ((strtParameter*)parm_aux)->phase;
+                    ((strtParameter*)parm)->a = ((strtParameter*)parm_aux)->a;
+                    ((strtParameter*)parm)->b = ((strtParameter*)parm_aux)->b;
+
+
+//cout<<"Algoo"<<endl;
+
+    }
+    //cout<<"MIche"<<((strtParameter*)parm)->innerProduct<<endl;
+    delete parm_aux;
+    //delete bateDic;
+}
+
+
+
+void CChi2Dictionary::adjustParameters(    cgMatrix<double>& residue,
+                                            strtParameter* parm)
+{
+    //cout << "AQUI" << endl;
+
+    if ( int(1e10*((strtParameter*)parm)->phase) == 0)
+    {
+        ((strtParameter*)parm)->phase = 0.0;
+    }
+
+    if(((strtParameter*)parm)->innerProduct < 0.0)
+    {
+        ((strtParameter*)parm)->phase += PI;
+        ((strtParameter*)parm)->innerProduct = - ((strtParameter*)parm)->innerProduct;
+    }
+
+    if ( ((strtParameter*)parm)->phase >= (2*PI) )
+    {
+        ((strtParameter*)parm)->phase -= 2*PI;
+    }
+
+
+    if (((strtParameter*)parm)->phase < 0 )
+    {
+        ((strtParameter*)parm)->phase += 2*PI;
+    }
+
+}
+
+double CChi2Dictionary::getApproxRatio(int signalSize)
+{
+    double tolAppRatio;
+    //          Dimensions:   64      128     256     512   1024    2048    4096
+    double lambda_med_ger[7]={0.30, 0.22, 0.18, 0.13, 0.12, 0.09, 0.065};
+
+    if (signalSize==64)
+    {
+        tolAppRatio = lambda_med_ger[0];
+    }
+    else if (signalSize==128)
+    {
+        tolAppRatio = lambda_med_ger[1];
+    }
+    else if (signalSize==256)
+    {
+        tolAppRatio = lambda_med_ger[2];
+    }
+    else if (signalSize==512)
+    {
+        tolAppRatio = lambda_med_ger[3];
+    }
+    else if (signalSize==1024)
+    {
+        tolAppRatio = lambda_med_ger[4];
+    }
+    else if (signalSize==2048)
+    {
+        tolAppRatio = lambda_med_ger[5];
+    }
+    else if (signalSize==4096)
+    {
+        tolAppRatio = lambda_med_ger[6];
+    }
+    else
+    {
+        tolAppRatio = 0.0;
+    }
+    return tolAppRatio;
+}
+
+//=============================================================
+
+// void CTriangDictionary::computeNextBlockCoefPhase(strtParameter* parm);
+// {
+
+// }
+
+void CChi2Dictionary::saveRealParm2TxtFile(char* fileName, double s, double xi, int u)
+{
+    ofstream stream;
+    stream.open(fileName, ios::out | ios::app | ios::ate);
+
+    stream << " realAtom " << endl;
+    stream << setw(4) << s << setw(10) << xi << setw(4) << u << endl;
+
+    for (int i = 0; i<m_signalSize; i+=1)
+    {
+        stream << setw (12) << setfill(' ') << m_realAtom[i] << endl;
+    }
+}
+
+void CChi2Dictionary::saveComplexParm2TxtFile(char* fileName, double s, double xi, int u)
+{
+    ofstream stream;
+    stream.open(fileName, ios::out | ios::app | ios::ate);
+    double realPart;
+    double imagPart;
+    stream << "    realPart       imagPart   " << endl;
+    stream << setw(4) << s << setw(10) << xi << setw(4) << u << endl;
+    for (int i = 0; i<m_signalSize; i+=1)
+    {
+        realPart = m_complexAtom[i].Real();
+        imagPart = m_complexAtom[i].Imag();
+        stream << setw (15) << setfill(' ') << realPart << setw (15) << setfill(' ') << imagPart << endl;
+    }
+}

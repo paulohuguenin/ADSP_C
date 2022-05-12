@@ -57,9 +57,9 @@ CStructBookExp::CStructBookExp()
 
 CStructBookExp::~CStructBookExp()
 {
-	if ( m_structBook!=NULL ) 
+	if ( m_structBook!=NULL )
 	{
-	    
+
 	    delete [] m_structBook;
 	    m_structBook = NULL;
 	    m_iNumElement = 0;
@@ -190,7 +190,7 @@ void CStructBookExp::addElement ( strtContinuousExp* cExpStructure, int numEl )
 
 //===============================================================
 // Function: setNextAtomIndex
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 void CStructBookExp::setNextAtomIndex ( int atomIndex,
@@ -201,7 +201,7 @@ void CStructBookExp::setNextAtomIndex ( int atomIndex,
 
 //===============================================================
 // Function: setPrevAtomIndex
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 void CStructBookExp::setPrevAtomIndex ( int atomIndex,
@@ -212,7 +212,7 @@ void CStructBookExp::setPrevAtomIndex ( int atomIndex,
 
 //===============================================================
 // Function: setOrigAtomIndex
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 void CStructBookExp::setOrigAtomIndex ( int atomIndex,
@@ -223,7 +223,7 @@ void CStructBookExp::setOrigAtomIndex ( int atomIndex,
 
 //===============================================================
 // Function: removeElement
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -233,7 +233,7 @@ void CStructBookExp::removeElement ( int atomIndex )
     {
         cout << "There is nothing to remove!!!" << endl;
         exit;
-        
+
     }
     if (atomIndex>(m_iNumElement-1))
     {
@@ -247,10 +247,10 @@ void CStructBookExp::removeElement ( int atomIndex )
         m_iNumElement=0;
         return;
     }
-        
+
     //cout << atomIndex<< endl;
     //cout << m_iNumElement << endl;
-    
+
     strtContinuousExp* aux;
     aux = new strtContinuousExp[m_iNumElement - 1];
 
@@ -616,13 +616,13 @@ void CStructBookExp::convertCoefNegativeToPositive()
         {
             m_structBook[i].phase += PI;
             m_structBook[i].innerProduct = - m_structBook[i].innerProduct;
-        } 
-    
+        }
+
         if (m_structBook[i].phase >= (2*PI) )
         {
             m_structBook[i].phase -= 2*PI;
         }
-    
+
         if (m_structBook[i].phase < 0 )
         {
             m_structBook[i].phase += 2*PI;
@@ -708,7 +708,7 @@ void CStructBookExp::sepByAmp(	strtContinuousExp* pSB,
         coef = pSB[i].innerProduct;
         if ( (coef>lowerAmpRangeLimit) && (coef<=upperAmpRangeLimit) )
         {
-            addElement(pSB[i]);  
+            addElement(pSB[i]);
         }
     }
 }
@@ -725,7 +725,7 @@ void CStructBookExp::sepBySubBlock(	strtContinuousExp* pSB,
         a = pSB[i].a;
         if ( (a>=lowerSubBlockLimit) && (a<upperSubBlockLimit) )
         {
-            addElement(pSB[i]);  
+            addElement(pSB[i]);
         }
     }
 }
@@ -753,7 +753,7 @@ void CStructBookExp::setQuantConfig(    strtContinuousExp* pSB,
                                         int sigType)
 {
     sbQHeadExp.norm = norm;
-    
+
     sbQHeadExp.nbits_amp = nbits_amp;
     sbQHeadExp.nbits_rho = nbits_rho;
     sbQHeadExp.nbits_phase = nbits_phase;
@@ -774,19 +774,19 @@ void CStructBookExp::setQuantConfig(    strtContinuousExp* pSB,
     }
     sbQHeadExp.nbits_a = (int)ceil( log(signalSize) / log(2.0) );
     sbQHeadExp.nbits_b = sbQHeadExp.nbits_a;
-	
+
 	sbQHeadExp.max_amp =-10000;
-	// Find max_amp 
+	// Find max_amp
     int i;
 	for( i=0;i < sbNumElement; i++)
 	{
-		if (pSB[i].innerProduct > sbQHeadExp.max_amp) 
+		if (pSB[i].innerProduct > sbQHeadExp.max_amp)
 			sbQHeadExp.max_amp = pSB[i].innerProduct;
-	}	
+	}
 	sbQHeadExp.min_amp =  0;
 	sbQHeadExp.max_rho = -100000;
 	sbQHeadExp.min_rho =  100000;
-	sbQHeadExp.max_phase = -2*PI; 
+	sbQHeadExp.max_phase = -2*PI;
 	sbQHeadExp.min_phase =  2*PI;
 
     double	nlevel_amp;
@@ -802,7 +802,7 @@ void CStructBookExp::setQuantConfig(    strtContinuousExp* pSB,
 	for(i=0;i< sbNumElement;i++)
 	{
 		innerProductQ = (int)( (pSB[i].innerProduct + step_amp/2) / step_amp);
-		
+
 		if(innerProductQ != 0)
 		{
 			// rho
@@ -817,7 +817,7 @@ void CStructBookExp::setQuantConfig(    strtContinuousExp* pSB,
 				sbQHeadExp.min_phase = pSB[i].phase;
 
 			// xi ajustment
-			if (pSB[i].xi < 0)	
+			if (pSB[i].xi < 0)
 				pSB[i].xi = - pSB[i].xi;
 			if (pSB[i].xi > 2*PI)
 				pSB[i].xi = pSB[i].xi - 2*PI;
@@ -828,7 +828,7 @@ void CStructBookExp::setQuantConfig(    strtContinuousExp* pSB,
 
 	m_iNumElement = k;
     sbQHeadExp.numberStruct = m_iNumElement;
-	
+
 	if (m_structBook == NULL)
 	{
 		m_structBook = new strtContinuousExp[m_iNumElement];
@@ -855,7 +855,7 @@ void CStructBookExp::quantStructBook(   strtContinuousExp* pSB,
 
     double nlevel_phase = pow(2.0, (double)sbQHeadExp.nbits_phase) - 1;
 	double step_phase = fabs( (sbQHeadExp.max_phase - sbQHeadExp.min_phase) / nlevel_phase );
-	
+
 
 	//===================================================
 	// Quantize structure book
@@ -863,23 +863,23 @@ void CStructBookExp::quantStructBook(   strtContinuousExp* pSB,
     double innerProductQ;
     int i;
     int k =0;
-    
+
 	for(i=0; i < sbNumElement;i++)
 	{
-		
+
 		innerProductQ = (int)( (pSB[i].innerProduct + step_amp/2) / step_amp) * step_amp;
-		
+
 		if(innerProductQ != 0)
 		{
 			// innerProduct
 			m_structBook[k].innerProduct = innerProductQ;
-			
+
 			// rho
 			m_structBook[k].rho = (int)((pSB[i].rho + step_rho/2)/step_rho) * step_rho;
 
             // xi
             m_structBook[k].xi = pSB[i].xi;
-			
+
 			// phase
 			m_structBook[k].phase = (int)((pSB[i].phase + step_phase/2)/step_phase) * step_phase;
 
@@ -890,7 +890,7 @@ void CStructBookExp::quantStructBook(   strtContinuousExp* pSB,
 			m_structBook[k].b = pSB[i].b;
 
             k++;
-		
+
 		}
 	}
 
@@ -930,21 +930,21 @@ double CStructBookExp::computeRate(int numSamples)
 // Function: setOpCurve
 // Goal:
 // Return:
-//=============================================================== 
+//===============================================================
 
 void CStructBookExp::setOpCurve(strtOpCurveExp* opCurve,int numElement)
 {
     if (m_opCurve==NULL) m_opCurve = new strtOpCurveExp[numElement];
-    
+
     memcpy(m_opCurve,opCurve,sizeof(strtOpCurveExp)*numElement);
-    
+
     m_numElemOpCurve = numElement;
 }
 
 void CStructBookExp::setMinAmp(double minamp)
 {
     m_minamp = minamp;
-} 
+}
 
 void  CStructBookExp::setMaxAmp(double maxamp)
 {
@@ -997,7 +997,7 @@ strtOpCurveExp*	CStructBookExp::getOpCurve() const
 
 //===============================================================
 // Function: getNextAtomIndex
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 int CStructBookExp::getNextAtomIndex ( int atomIndex)
@@ -1007,7 +1007,7 @@ int CStructBookExp::getNextAtomIndex ( int atomIndex)
 
 //===============================================================
 // Function: getPrevAtomIndex
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 int CStructBookExp::getPrevAtomIndex ( int atomIndex)
@@ -1017,7 +1017,7 @@ int CStructBookExp::getPrevAtomIndex ( int atomIndex)
 
 //===============================================================
 // Function: getOrigAtomIndex
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 int CStructBookExp::getOrigAtomIndex ( int atomIndex)
@@ -1094,7 +1094,7 @@ CStructBookQExp::~CStructBookQExp()
 
 //===============================================================
 // Function: setStructBookQ
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -1118,7 +1118,7 @@ void CStructBookQExp::setStructBookQ(	strtStructBookQHeader sBookQHeader,
 
 //===============================================================
 // Function: setStructBookQ
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -1133,7 +1133,7 @@ void CStructBookQExp::setStructBookQ()
 
 //===============================================================
 // Function: saveStructBookQHeader
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -1141,9 +1141,9 @@ void CStructBookQExp::saveStructBookQHeader(FILE* stream)
 {
 	int numwritten;
 
-	numwritten = fwrite(	&structBookQuantizedHeader, 
-				sizeof( strtStructBookQHeader ), 
-				1, 
+	numwritten = fwrite(	&structBookQuantizedHeader,
+				sizeof( strtStructBookQHeader ),
+				1,
 				stream );
 
 	setNumElementQ(structBookQuantizedHeader.numberStruct);
@@ -1156,16 +1156,16 @@ void CStructBookQExp::saveStructBookQHeader(FILE* stream)
 
 //===============================================================
 // Function: saveStructBookQHeader
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
 void CStructBookQExp::saveStructBookQHeader(CBitStream& bitStream)
-{	
+{
 	strtFpBinForm aux;
 
 	if (structBookQuantizedHeader.norm!=0)
-	{	
+	{
 		// chnull flag
 		bitStream.writeBuffer(0,1);
 
@@ -1176,11 +1176,11 @@ void CStructBookQExp::saveStructBookQHeader(CBitStream& bitStream)
 					aux.int_nbits);
 		bitStream.writeBuffer(	aux.decimal,
 					aux.dec_nbits);
-		
-		// numberStruct			
+
+		// numberStruct
 		bitStream.writeBuffer(	structBookQuantizedHeader.numberStruct,
 					NUM_STRUCT_NBITS);
-		// max_amp	
+		// max_amp
 		aux = bitStream.double2bin(	structBookQuantizedHeader.max_amp,
 						AMP_INT_NBITS, AMP_DEC_NBITS);
 		bitStream.writeBuffer(	aux.integer,
@@ -1190,7 +1190,7 @@ void CStructBookQExp::saveStructBookQHeader(CBitStream& bitStream)
 		// nbits_amp
 		bitStream.writeBuffer(	structBookQuantizedHeader.nbits_amp,
 					AMP_2NBITS);
-		// max_rho	
+		// max_rho
 		aux = bitStream.double2bin(	structBookQuantizedHeader.max_rho,
 						RHO_INT_NBITS, RHO_DEC_NBITS);
 		bitStream.writeBuffer(	aux.integer,
@@ -1207,14 +1207,14 @@ void CStructBookQExp::saveStructBookQHeader(CBitStream& bitStream)
 		// nbits_rho
 		bitStream.writeBuffer(	structBookQuantizedHeader.nbits_rho,
 					RHO_2NBITS);
-		// max_phase			
+		// max_phase
 		aux = bitStream.double2bin(	structBookQuantizedHeader.max_phase,
 						PHASE_INT_NBITS, PHASE_DEC_NBITS);
 		bitStream.writeBuffer(	aux.integer,
 					aux.int_nbits);
 		bitStream.writeBuffer(	aux.decimal,
 					aux.dec_nbits);
-		// min_phase			
+		// min_phase
 		aux = bitStream.double2bin(	structBookQuantizedHeader.min_phase,
 						PHASE_INT_NBITS, PHASE_DEC_NBITS);
 		bitStream.writeBuffer(	aux.integer,
@@ -1230,14 +1230,14 @@ void CStructBookQExp::saveStructBookQHeader(CBitStream& bitStream)
 		// chnull flag
 		bitStream.writeBuffer(1,1);
 	}
-	
-		
+
+
 }
 
 
 //===============================================================
 // Function: saveStructBookQ
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -1287,17 +1287,17 @@ void CStructBookQExp::saveStructBookQ(	CBitStream& bitStream,
 
 //===============================================================
 // Function: loadStructBookQHeader
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
 void CStructBookQExp::loadStructBookQHeader(FILE* stream)
 {
 	int numread;
-	
-	numread = fread(&structBookQuantizedHeader, 
-			sizeof( strtStructBookQHeader ), 
-			1, 
+
+	numread = fread(&structBookQuantizedHeader,
+			sizeof( strtStructBookQHeader ),
+			1,
 			stream );
 	m_iNumElementQ = structBookQuantizedHeader.numberStruct;
 	if (m_structBookQ == NULL)
@@ -1308,15 +1308,15 @@ void CStructBookQExp::loadStructBookQHeader(FILE* stream)
 
 //===============================================================
 // Function: loadStructBookQHeader
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
 void CStructBookQExp::loadStructBookQHeader(CBitStream& bitStream)
-{	
+{
 	strtFpBinForm aux;
 	int chnull;
-	
+
 	// chnull flag
 	bitStream.readBuffer(chnull,1);
 
@@ -1330,11 +1330,11 @@ void CStructBookQExp::loadStructBookQHeader(CBitStream& bitStream)
 		bitStream.readBuffer(	aux.decimal,
 					aux.dec_nbits);
 		structBookQuantizedHeader.norm = bitStream.bin2double(aux);
-		
+
 		// numberStruct
 		bitStream.readBuffer(	structBookQuantizedHeader.numberStruct,
 					NUM_STRUCT_NBITS);
-		
+
 		// max_amp
 		aux.int_nbits = AMP_INT_NBITS;
 		aux.dec_nbits = AMP_DEC_NBITS;
@@ -1343,11 +1343,11 @@ void CStructBookQExp::loadStructBookQHeader(CBitStream& bitStream)
 		bitStream.readBuffer(	aux.decimal,
 					aux.dec_nbits);
 		structBookQuantizedHeader.max_amp = bitStream.bin2double(aux);
-		
+
 		// nbits_amp
 		bitStream.readBuffer(	structBookQuantizedHeader.nbits_amp,
 					AMP_2NBITS);
-		
+
 		// max_rho
 		aux.int_nbits = RHO_INT_NBITS;
 		aux.dec_nbits = RHO_DEC_NBITS;
@@ -1356,19 +1356,19 @@ void CStructBookQExp::loadStructBookQHeader(CBitStream& bitStream)
 		bitStream.readBuffer(	aux.decimal,
 					aux.dec_nbits);
 		structBookQuantizedHeader.max_rho = bitStream.bin2double(aux);
-		
+
 		// min_rho
 		bitStream.readBuffer(	aux.integer,
 					aux.int_nbits);
 		bitStream.readBuffer(	aux.decimal,
 					aux.dec_nbits);
 		structBookQuantizedHeader.min_rho = bitStream.bin2double(aux);
-		
+
 		// nbits_rho
 		bitStream.readBuffer(	structBookQuantizedHeader.nbits_rho,
 					RHO_2NBITS);
-		
-		// max_phase	
+
+		// max_phase
 		aux.int_nbits = PHASE_INT_NBITS;
 		aux.dec_nbits = PHASE_DEC_NBITS;
 		bitStream.readBuffer(	aux.integer,
@@ -1376,14 +1376,14 @@ void CStructBookQExp::loadStructBookQHeader(CBitStream& bitStream)
 		bitStream.readBuffer(	aux.decimal,
 					aux.dec_nbits);
 		structBookQuantizedHeader.max_phase = bitStream.bin2double(aux);
-		
+
 		// min_phase
 		bitStream.readBuffer(	aux.integer,
 					aux.int_nbits);
 		bitStream.readBuffer(	aux.decimal,
 					aux.dec_nbits);
 		structBookQuantizedHeader.min_phase = bitStream.bin2double(aux);
-		
+
 		// nbits_phase
 		bitStream.readBuffer(	structBookQuantizedHeader.nbits_phase,
 					PHASE_2NBITS);
@@ -1392,7 +1392,7 @@ void CStructBookQExp::loadStructBookQHeader(CBitStream& bitStream)
 	{
 		structBookQuantizedHeader.numberStruct=0;
 	}
-	
+
 //	cout << "Header reconstruido do canal:" << endl;
 //	cout << structBookQuantizedHeader.norm << endl;
 //	cout << structBookQuantizedHeader.numberStruct << endl;
@@ -1403,13 +1403,13 @@ void CStructBookQExp::loadStructBookQHeader(CBitStream& bitStream)
 //	cout << structBookQuantizedHeader.nbits_rho << endl;
 //	cout << structBookQuantizedHeader.max_phase << endl;
 //	cout << structBookQuantizedHeader.min_phase << endl;
-//	cout << structBookQuantizedHeader.nbits_phase << endl;	
+//	cout << structBookQuantizedHeader.nbits_phase << endl;
 }
 
 
 //===============================================================
 // Function: loadStructBookQ
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -1445,7 +1445,7 @@ void CStructBookQExp::loadStructBookQ(	CBitStream& bitStream,
 			// phase
 			bitStream.readBuffer(	m_structBookQ[i].phase,
 						structBookQuantizedHeader.nbits_phase);
-			
+
 			// a
 			bitStream.readBuffer(	m_structBookQ[i].a,
 						nbits_u_a_b);
@@ -1458,7 +1458,7 @@ void CStructBookQExp::loadStructBookQ(	CBitStream& bitStream,
 
 //===============================================================
 // Function:  quantizeFloat
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -1467,7 +1467,7 @@ float CStructBookQExp::quantizeFloat(float input, int int_nbits, int dec_nbits)
 	float output;
 	CBitStream bitStream;
 	strtFpBinForm aux;
-	
+
 	if (input>=0)
 	{
 		aux = bitStream.float2bin(input,int_nbits,dec_nbits);
@@ -1484,7 +1484,7 @@ float CStructBookQExp::quantizeFloat(float input, int int_nbits, int dec_nbits)
 
 //===============================================================
 // Function:  quantizeDouble
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -1493,7 +1493,7 @@ double CStructBookQExp::quantizeDouble(double input, int int_nbits, int dec_nbit
 	double output;
 	CBitStream bitStream;
 	strtFpBinForm aux;
-	
+
 	if (input>=0)
 	{
 		aux = bitStream.double2bin(input,int_nbits,dec_nbits);
@@ -1504,7 +1504,7 @@ double CStructBookQExp::quantizeDouble(double input, int int_nbits, int dec_nbit
 		aux = bitStream.double2bin(-input,int_nbits,dec_nbits);
 		output = -bitStream.bin2double(aux);
 	}
-	
+
 	return output;
 }
 
@@ -1527,7 +1527,7 @@ void CStructBookQExp::quantizeStructBookQHeader()
 							RHO_DEC_NBITS);
 	structBookQuantizedHeader.min_rho = quantizeDouble(structBookQuantizedHeader.min_rho,
 							RHO_INT_NBITS,
-							RHO_DEC_NBITS);	
+							RHO_DEC_NBITS);
 	structBookQuantizedHeader.max_phase = quantizeDouble(structBookQuantizedHeader.max_phase,
 							PHASE_INT_NBITS,
 							PHASE_DEC_NBITS);
@@ -1582,19 +1582,19 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook* structBook ,
 	//cout << "Number of levels:" << endl;
 	//cout << "amp: " << nlevel_amp << " rho: " << nlevel_rho << " ph: " << nlevel_phase << endl;
 	//cout << "xi: " << nlevel_xi << endl;
-	
+
 	// Maximum and minimum values definition
 	double	max_amp, min_amp, max_rho, min_rho,
 		max_xi, min_xi, max_phase, min_phase;
-	
-	max_amp = -100000; 
-	//min_amp =  100000; 
+
+	max_amp = -100000;
+	//min_amp =  100000;
 	min_amp = 0;
 	max_rho = -100000;
 	min_rho =  100000;
 	max_xi  =  2*PI;
 	min_xi  =  0;
-	max_phase = -2*PI; 
+	max_phase = -2*PI;
 	min_phase =  2*PI;
 
 	strtContinuousExp* pSBook;
@@ -1606,12 +1606,12 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook* structBook ,
 	// Find max_amp and min_amp
 	for( i=0;i < structBook->getNumElement(); i++)
     	{
-		if (pow (pSBook[i].innerProduct, 2.0) > max_amp) 
+		if (pow (pSBook[i].innerProduct, 2.0) > max_amp)
 			max_amp = pow (pSBook[i].innerProduct, 2.0);
-		//if (pow (pSBook[i].innerProduct, 2.0) < min_amp) 
+		//if (pow (pSBook[i].innerProduct, 2.0) < min_amp)
 		//	min_amp = pow (pSBook[i].innerProduct, 2.0);
 	} // end for
-	
+
 
 	double step_amp;
 	step_amp = fabs( (max_amp - min_amp) / nlevel_amp );
@@ -1638,7 +1638,7 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook* structBook ,
 				min_phase = pSBook[i].phase;
 
 			// xi ajustment
-			if (pSBook[i].xi < 0)	
+			if (pSBook[i].xi < 0)
 				pSBook[i].xi = - pSBook[i].xi;
 			if (pSBook[i].xi > 2*PI)
 				pSBook[i].xi = pSBook[i].xi - 2*PI;
@@ -1648,7 +1648,7 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook* structBook ,
     	} // end for
 
 	m_iNumElementQ = k;
-	
+
 	if (m_structBookQ == NULL)
 	{
 		m_structBookQ = new strtStructBookQ[m_iNumElementQ];
@@ -1665,15 +1665,15 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook* structBook ,
 	double step_rho;
 	step_rho = fabs( (max_rho - min_rho) / nlevel_rho );
 	//double step_u;
-	//step_u = (double)signalSize / nlevel_u;	
+	//step_u = (double)signalSize / nlevel_u;
 	double step_xi;
 	step_xi = (2*PI) / rf;
 	double step_phase;
 	step_phase = fabs( (max_phase - min_phase) / nlevel_phase );
 	//double step_a;
-	//step_a = (double)signalSize / nlevel_a;	
+	//step_a = (double)signalSize / nlevel_a;
 	//double step_b;
-	//step_b = (double)signalSize / nlevel_b;	
+	//step_b = (double)signalSize / nlevel_b;
 
 	//cout << "Step: " << endl;
 	//cout << "step amp: " << step_amp << " step rho: " << step_rho << " step ph: " << step_phase << endl;
@@ -1693,7 +1693,7 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook* structBook ,
 		min_phaseQ = (int)(((min_phase) + step_phase/2)/step_phase);
 	if(min_phase < 0)
 		min_phaseQ = -(int)(-((min_phase) + step_phase/2)/step_phase);
-	
+
 	k=0;
 
 	for(i=0; i<structBook.getNumElement();i++)
@@ -1775,7 +1775,7 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook* structBook ,
 
 //===============================================================
 // Function: quantizeStructureBook
-// Goal: linear amp 
+// Goal: linear amp
 // Return:
 //===============================================================
 
@@ -1803,12 +1803,12 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook& structBook,
 
 
 	double	nlevel_amp, nlevel_rho, nlevel_phase; //nlevel_xi,
-	
+
 	nlevel_amp = pow(2.0, (double)nbits_amp) - 1;
 	nlevel_rho = pow(2.0, (double)nbits_rho) - 1;
 	//nlevel_xi = pow(2.0, (double)nbits_xi) - 1;
 	nlevel_phase = pow(2.0, (double)nbits_phase) - 1;
-	
+
 	// Maximum and minimum values definition
 	double	max_amp, min_amp, max_rho, min_rho, max_phase, min_phase;
 
@@ -1817,21 +1817,21 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook& structBook,
 	memcpy(	pSBook,
 		structBook.getStructBook(),
 		structBook.getNumElement() * sizeof(strtContinuousExp) );
-	
+
 	max_amp =-10000;
-	// Find max_amp 
+	// Find max_amp
 	for( i=0;i < structBook.getNumElement(); i++)
 	{
-		if (pSBook[i].innerProduct > max_amp) 
+		if (pSBook[i].innerProduct > max_amp)
 			max_amp = pSBook[i].innerProduct;
 	} // end for
-	
+
 	min_amp =  0;
 	max_rho = -100000;
 	min_rho =  100000;
-	max_phase = -2*PI; 
+	max_phase = -2*PI;
 	min_phase =  2*PI;
-	
+
 	double max_amp_quantized = quantizeDouble(max_amp, AMP_INT_NBITS,AMP_DEC_NBITS);
 
 	double step_amp;
@@ -1852,7 +1852,7 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook& structBook,
 		{
 			innerProductQ = (int)( (pSBook[i].innerProduct + step_amp/2) / step_amp);
 		}
-		
+
 		if(innerProductQ != 0)
 		{
 			// rho
@@ -1867,7 +1867,7 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook& structBook,
 				min_phase = pSBook[i].phase;
 
 			// xi ajustment
-			if (pSBook[i].xi < 0)	
+			if (pSBook[i].xi < 0)
 				pSBook[i].xi = - pSBook[i].xi;
 			if (pSBook[i].xi > 2*PI)
 				pSBook[i].xi = pSBook[i].xi - 2*PI;
@@ -1877,7 +1877,7 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook& structBook,
 	} // end for
 
 	m_iNumElementQ = k;
-	
+
 	if (m_structBookQ == NULL)
 	{
 		m_structBookQ = new strtStructBookQ[m_iNumElementQ];
@@ -1887,7 +1887,7 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook& structBook,
 	double min_rho_quantized = quantizeDouble(min_rho, RHO_INT_NBITS,RHO_DEC_NBITS);
 	double max_phase_quantized = quantizeDouble(max_phase, PHASE_INT_NBITS,PHASE_DEC_NBITS);
 	double min_phase_quantized = quantizeDouble(min_phase, PHASE_INT_NBITS,PHASE_DEC_NBITS);
-	
+
 	// =========================================
 	// Quantization steps definition
 	// step_amp already defined above
@@ -1898,7 +1898,7 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook& structBook,
 	step_xi = (PI) / rf;
 	double step_phase;
 	step_phase = fabs( (max_phase_quantized - min_phase_quantized) / nlevel_phase );
-	
+
 
 	//===================================================
 	// Quantize structure book
@@ -1915,7 +1915,7 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook& structBook,
 		{
 			innerProductQ = (int)( (pSBook[i].innerProduct + step_amp/2) / step_amp);
 		}
-		
+
 		if(innerProductQ != 0)
 		{
 			// innerProduct
@@ -1976,7 +1976,7 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook& structBook,
 		min_phaseQ = (int)(((min_phase) + step_phase/2)/step_phase);
 	if(min_phase < 0)
 		min_phaseQ = -(int)(-((min_phase) + step_phase/2)/step_phase);
-	
+
 	// Indexing -> offset
 	for(i=0; i<m_iNumElementQ;i++)
 	{
@@ -1986,7 +1986,7 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook& structBook,
 
 	// Fill header
 
-	
+
 	structBookQuantizedHeader.norm = structBook.getNorm();
 	structBookQuantizedHeader.numberStruct = m_iNumElementQ;
 	structBookQuantizedHeader.max_amp = max_amp;
@@ -1997,7 +1997,7 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook& structBook,
 	structBookQuantizedHeader.max_phase = max_phase;
 	structBookQuantizedHeader.min_phase = min_phase;
 	structBookQuantizedHeader.nbits_phase = nbits_phase;
-	
+
 //	cout << "Header do canal:" << endl;
 //	cout << structBookQuantizedHeader.norm << endl;
 //	cout << structBookQuantizedHeader.numberStruct << endl;
@@ -2022,20 +2022,20 @@ void CStructBookQExp::quantizeStructureBook(	CStructBook& structBook,
 // Goal: squared amp
 // Return:
 //===============================================================
-void CStructBookQExp::dequantizeStructureBook(	CStructBook& structBook, 
+void CStructBookQExp::dequantizeStructureBook(	CStructBook& structBook,
 						double Ffund,
 						double Fs,
 						int signalSize)
-{	
-	
+{
+
 	structBook.setNorm( (double)structBookQuantizedHeader.norm);
-	
+
 	double	nlevel_amp, nlevel_rho, nlevel_phase;
 
 	nlevel_amp = pow(2.0, (double)structBookQuantizedHeader.nbits_amp) -1;
 	nlevel_rho = pow(2.0, (double)structBookQuantizedHeader.nbits_rho) -1;
 	nlevel_phase = pow(2.0, (double)structBookQuantizedHeader.nbits_phase) -1;
-	
+
 
 	double step_amp;
 	step_amp = fabs( (double)(structBookQuantizedHeader.max_amp - 0) / nlevel_amp );
@@ -2050,7 +2050,7 @@ void CStructBookQExp::dequantizeStructureBook(	CStructBook& structBook,
 	step_phase = fabs( (double)(structBookQuantizedHeader.max_phase - structBookQuantizedHeader.min_phase) / nlevel_phase );
 
 	strtContinuousExp* pSBook;
-	pSBook = new strtContinuousExp [structBookQuantizedHeader.numberStruct]; 
+	pSBook = new strtContinuousExp [structBookQuantizedHeader.numberStruct];
 
 	for (int i=0; i<structBookQuantizedHeader.numberStruct; i++)
 	{
@@ -2068,10 +2068,10 @@ void CStructBookQExp::dequantizeStructureBook(	CStructBook& structBook,
 		structBook.addElement(pSBook[i]);
 	}
 	//structBook.printToScreen();
-	
+
 
 	delete [] pSBook;
-	
+
 }
 
 //===============================================================
@@ -2084,7 +2084,7 @@ void CStructBookQExp::dequantizeStructureBook(	CStructBook& structBook,
 						double Fs,
 						int signalSize,
 						int dummy)
-{	
+{
 	structBook.setNorm( (double)structBookQuantizedHeader.norm);
 
 	double	nlevel_amp, nlevel_rho, nlevel_phase;
@@ -2092,7 +2092,7 @@ void CStructBookQExp::dequantizeStructureBook(	CStructBook& structBook,
 	nlevel_amp = pow(2.0, (double)structBookQuantizedHeader.nbits_amp) -1;
 	nlevel_rho = pow(2.0, (double)structBookQuantizedHeader.nbits_rho) -1;
 	nlevel_phase = pow(2.0, (double)structBookQuantizedHeader.nbits_phase) -1;
-	
+
 	double step_amp;
 	step_amp = fabs( (double)(structBookQuantizedHeader.max_amp - 0) / nlevel_amp );
 	double step_rho;
@@ -2105,7 +2105,7 @@ void CStructBookQExp::dequantizeStructureBook(	CStructBook& structBook,
 	step_phase = fabs( (double)(structBookQuantizedHeader.max_phase - structBookQuantizedHeader.min_phase) / nlevel_phase );
 
 	strtContinuousExp* pSBook;
-	pSBook = new strtContinuousExp [structBookQuantizedHeader.numberStruct]; 
+	pSBook = new strtContinuousExp [structBookQuantizedHeader.numberStruct];
 
 	for (int i=0; i<structBookQuantizedHeader.numberStruct; i++)
 	{
@@ -2124,7 +2124,7 @@ void CStructBookQExp::dequantizeStructureBook(	CStructBook& structBook,
 	}
 	//cout << "Quantized Structure Book" << endl;
 	//structBook.printToScreen();
-	
+
 	delete [] pSBook;
 }
 
@@ -2133,7 +2133,7 @@ void CStructBookQExp::dequantizeStructureBook(	CStructBook& structBook,
 
 //===============================================================
 // Function: getSBQHeader()
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -2144,7 +2144,7 @@ strtStructBookQHeader CStructBookQExp::getSBQHeader() const
 
 //===============================================================
 // Function: getStructBookQ()
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -2155,7 +2155,7 @@ strtStructBookQ* CStructBookQExp::getStructBookQ() const
 
 //===============================================================
 // Function: getNumElementQ()
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -2166,7 +2166,7 @@ int	CStructBookQExp::getNumElementQ() const
 
 //===============================================================
 // Function: getNumBits()
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -2177,7 +2177,7 @@ int	CStructBookQExp::getNumBits() const
 
 //===============================================================
 // Function: getNorm()
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -2189,7 +2189,7 @@ double	CStructBookQExp::getNorm() const
 
 //===============================================================
 // Function: setNumElementQ()
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -2202,7 +2202,7 @@ void CStructBookQExp::setNumElementQ(int num)
 
 //===============================================================
 // Function: calcNumBits()
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -2214,43 +2214,43 @@ void CStructBookQExp::calcNumBits( double Ffund,
 	rf = RF_COEF * ( (Fs/2) / Ffund);
 	double aux;
 	aux = log(rf) / log(2.0);
-	
+
 	//rf = RF_COEF * (Fs / Ffund);
 	//double aux;
 	//aux = log(rf) / log(2.0);
-	
+
 	int nbits_xi = (int)(aux+1);
 	int nbits_a_b = (int)ceil(((log10((double)(signalSize)))/(log10(2.0))));
 	int nbits_rho_sig = 1 ;
-	int nbits_header = 	NORM_INT_NBITS  + NORM_DEC_NBITS + NUM_STRUCT_NBITS + AMP_INT_NBITS + 
-				AMP_DEC_NBITS   + 2*(RHO_INT_NBITS  + RHO_DEC_NBITS) + 
-				2*(PHASE_INT_NBITS + PHASE_DEC_NBITS) + AMP_2NBITS + RHO_2NBITS + 
+	int nbits_header = 	NORM_INT_NBITS  + NORM_DEC_NBITS + NUM_STRUCT_NBITS + AMP_INT_NBITS +
+				AMP_DEC_NBITS   + 2*(RHO_INT_NBITS  + RHO_DEC_NBITS) +
+				2*(PHASE_INT_NBITS + PHASE_DEC_NBITS) + AMP_2NBITS + RHO_2NBITS +
 				PHASE_2NBITS;
 	int nbits_chnull = 1;
 
 
 	if (structBookQuantizedHeader.numberStruct!=0)
 	{
-		m_iNumBits =	nbits_chnull + 
+		m_iNumBits =	nbits_chnull +
 						nbits_header +
 						structBookQuantizedHeader.numberStruct * (
-						structBookQuantizedHeader.nbits_amp + 
+						structBookQuantizedHeader.nbits_amp +
 						nbits_rho_sig +
-						structBookQuantizedHeader.nbits_rho + 
+						structBookQuantizedHeader.nbits_rho +
 						structBookQuantizedHeader.nbits_phase +
-						nbits_xi + 
+						nbits_xi +
 						2 * nbits_a_b );
 	}
 	else
 	{
-		m_iNumBits =	nbits_chnull; 
+		m_iNumBits =	nbits_chnull;
 	}
-					
+
 }
 
 //===============================================================
-// Function: operator= 
-// Goal: 
+// Function: operator=
+// Goal:
 // Return:
 //===============================================================
 
@@ -2268,10 +2268,10 @@ const CStructBookQExp& CStructBookQ::operator=(const CStructBookQ& structBookQ)
 
 		memcpy(	this->m_structBookQ,
 				structBookQ.getStructBookQ(),
-				(this->m_iNumElementQ) * sizeof(strtStructBookQ));	
-		
+				(this->m_iNumElementQ) * sizeof(strtStructBookQ));
+
 		m_iNumBits = structBookQ.getNumBits();
-		
+
 	}
 	else
 	{
@@ -2301,9 +2301,9 @@ CStructBookParm::CStructBookParm()
 
 CStructBookParm::~CStructBookParm()
 {
-	if ( m_structBook!=NULL ) 
+	if ( m_structBook!=NULL )
 	{
-	    
+
 	    delete [] m_structBook;
 	    m_structBook = NULL;
 	    m_iNumElement = 0;
@@ -2438,7 +2438,7 @@ void CStructBookParm::addElement ( strtParameter* cParmStructure, int numEl )
 
 //===============================================================
 // Function: setNextAtomIndex
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 void CStructBookParm::setNextAtomIndex ( int atomIndex,
@@ -2449,7 +2449,7 @@ void CStructBookParm::setNextAtomIndex ( int atomIndex,
 
 //===============================================================
 // Function: setPrevAtomIndex
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 void CStructBookParm::setPrevAtomIndex ( int atomIndex,
@@ -2460,7 +2460,7 @@ void CStructBookParm::setPrevAtomIndex ( int atomIndex,
 
 //===============================================================
 // Function: setOrigAtomIndex
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 void CStructBookParm::setOrigAtomIndex ( int atomIndex,
@@ -2471,7 +2471,7 @@ void CStructBookParm::setOrigAtomIndex ( int atomIndex,
 
 //===============================================================
 // Function: removeElement
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 
@@ -2481,7 +2481,7 @@ void CStructBookParm::removeElement ( int atomIndex )
     {
         cout << "There is nothing to remove!!!" << endl;
         exit;
-        
+
     }
     if (atomIndex>(m_iNumElement-1))
     {
@@ -2495,10 +2495,10 @@ void CStructBookParm::removeElement ( int atomIndex )
         m_iNumElement=0;
         return;
     }
-        
+
     //cout << atomIndex<< endl;
     //cout << m_iNumElement << endl;
-    
+
     strtParameter* aux;
     aux = new strtParameter[m_iNumElement - 1];
 
@@ -2570,7 +2570,7 @@ void CStructBookParm::saveMainHeaderASCII (	char* fileName,
 											int initBlock,
                                             int finalBlock,
 											CDataSignal* dataSignal)
-{	
+{
 	FILE* stream;
 	stream = fopen(fileName,"w");
 	fprintf(stream,"Sign. Type :          %5i\n", dataSignal->getType());
@@ -2587,10 +2587,10 @@ void CStructBookParm::saveMainHeaderASCII (	char* fileName,
 	{
 	    fprintf(stream,"Samp. Freq :     %10.2f\n", ((CAudioSignal*)dataSignal)->getSamplingRate());
 	}
-	if (dataSignal->getType()==4)
-	{
-	    fprintf(stream,"Samp. Freq :     %10.2f\n", ((CECGSignal*)dataSignal)->getSamplingRate());
-	}
+	//if (dataSignal->getType()==4)
+	//{
+	//    fprintf(stream,"Samp. Freq :     %10.2f\n", ((CECGSignal*)dataSignal)->getSamplingRate());
+	//}
 
 	fprintf(stream,"Init. Block:          %5i\n", initBlock);
 	fprintf(stream,"Final Block:          %5i\n", finalBlock);
@@ -2653,8 +2653,8 @@ void CStructBookParm::saveBlockHeaderASCII (char* fileName,
 											// FILE* stream,
 											int j,
                                             double initBlockNorm)
-{	             
-	FILE* stream;   
+{
+	FILE* stream;
 	stream = fopen(fileName,"a");
 	fprintf(stream,"--------------------------------------------------------------\n");
 	fprintf(stream,"Block:                %5i\n",j+1);
@@ -2669,13 +2669,13 @@ void CStructBookParm::saveBlockHeaderASCII (char* fileName,
  //    stream << "Block:                " << setw (5) << setfill(' ') << j+1 << endl;
  //    stream << "Norm:            " << setw (10) << setfill(' ') << initBlockNorm << endl;
  //    stream << "No.    Coef.           Decaying        Freq            Phase           Ti   Tf    PrevAtom AppRatio   meanAppRat befSup     aftSup     normRatio  SNR(dB)     \n" << endl;
- //    stream.close();  
-	
+ //    stream.close();
+
 }
 
 void CStructBookParm::saveHeader (char* fileName)
-{	             
-	FILE* stream;   
+{
+	FILE* stream;
 	stream = fopen(fileName,"a");
 	fprintf(stream,"--------------------------------------------------------------\n");
 	fprintf(stream,"No.    Coef.           Phase           innerProd_xp    innerProd_xq    innerProd_pp    innerProd_qq    innerProd_pq    \n");
@@ -2689,7 +2689,7 @@ void CStructBookParm::saveElement (	char* fileName,
 									double innerProd_pp,
 									double innerProd_qq,
 									double innerProd_pq)
-{	
+{
 	FILE* stream;
 	stream = fopen(fileName,"a");
 	fprintf ( stream,"%5i %15.8f %15.8f %15.8f %15.8f %15.8f %15.8f %15.8f \n",
@@ -2718,7 +2718,7 @@ void CStructBookParm::saveElementASCII (char* fileName,
                                         double aftSupInnerP,
                                         double normRatio,
                                         int chosenNet)
-{	
+{
 	FILE* stream;
 	stream = fopen(fileName,"a");
 	double snr = 20*(log(1.0/(normRatio))/log(10.0));
@@ -3030,7 +3030,7 @@ void CStructBookParm::saveMainHeaderBin(char* sbbFName,
                         				CDataSignal* dataSignal,
                                     	CFileDictionary* dicData,
                                     	CFileDecomp* genData)
-{	
+{
 	FILE* stream;
 	// char* pos;
 	// char aux[_MAX_PATH];
@@ -3040,7 +3040,7 @@ void CStructBookParm::saveMainHeaderBin(char* sbbFName,
 	// string aux;
 	// char* aux;
 	// int pos1;
-	
+
 	// char pos2[_MAX_PATH];
 	// int pos2;
 
@@ -3071,20 +3071,20 @@ void CStructBookParm::saveMainHeaderBin(char* sbbFName,
     }
     if (genData->getSigType()==2)
     {
-		dummydouble = ((CAudioSignal*)dataSignal)->getSamplingRate();    
+		dummydouble = ((CAudioSignal*)dataSignal)->getSamplingRate();
     }
     if (genData->getSigType()==3)
     {
         dummydouble = ((CNoiseSignal*)dataSignal)->getSamplingRate();
     }
-    
+
     if (genData->getSigType()==4)
     {
 		dummydouble = ((CECGSignal*)dataSignal)->getSamplingRate();
     }
     */
     dummydouble = dataSignal->getSamplingRate();
-     
+
     fwrite(&dummydouble, sizeof(double), 1, stream);
     dummyint = initBlock;
     fwrite(&dummyint, sizeof(int), 1, stream);
@@ -3114,50 +3114,50 @@ void CStructBookParm::saveMainHeaderBin(char* sbbFName,
 
     // stream.open(m_sbbHeaderFName, ios::out | ios::binary | ios::trunc | ios::app | ios::ate);
 
-    
+
     // dummyint = dataSignal->getType();
     // ss << &dummyint;
     // s = ss.str();
     // c = s.c_str();
     // stream.write(c, size*sizeof(int));
 
-    
+
     // dummyint = dataSignal->getNumSignal();
     // ss << &dummyint;
     // s = ss.str();
     // c = s.c_str();
     // stream.write(c, size*sizeof(int));
-    
+
     // dummyint = dataSignal->getSignalSize();
     // ss << &dummyint;
     // s = ss.str();
     // c = s.c_str();
     // stream.write(c, size*sizeof(int));
-    
+
     // dummyint = dataSignal->getBlockHop();
     // ss << &dummyint;
     // s = ss.str();
     // c = s.c_str();
     // stream.write(c, size*sizeof(int));
-    
+
     // dummyint = dataSignal->getBlockSize();
     // ss << &dummyint;
     // s = ss.str();
     // c = s.c_str();
     // stream.write(c, size*sizeof(int));
-    
+
     // dummydouble = ((CAudioSignal*)dataSignal)->getSamplingRate();
     // ss << &dummydouble;
     // s = ss.str();
     // c = s.c_str();
     // stream.write(c, size2*sizeof(double));
-    
+
     // dummyint = initBlock;
     // ss << &dummyint;
     // s = ss.str();
     // c = s.c_str();
     // stream.write(c, size*sizeof(int));
-    
+
     // dummyint = finalBlock;
     // ss << &dummyint;
     // s = ss.str();
@@ -3165,7 +3165,7 @@ void CStructBookParm::saveMainHeaderBin(char* sbbFName,
     // stream.write(c, size*sizeof(int));
 
     // stream.close();
-    
+
 }
 
 //===============================================================
@@ -3201,7 +3201,7 @@ void CStructBookParm::saveMainHeaderBin(char* sbbFName,
 //     sprintf(aux,"_b%d-%d_header.sbb",initBlock,finalBlock);
 //     st_sbbFName += aux;
 //     m_sbbFName = st_sbbFName.c_str();
-	
+
 // 	/*strcpy(m_sbbFName, dataSignal->getFileName());
 //     pos = strrchr( m_sbbFName, '.');
 //     sprintf(aux,"_b%d-%d.sbb",initBlock,finalBlock);
@@ -3223,7 +3223,7 @@ void CStructBookParm::saveSignalHeaderBin (	char* sbbFName,
 											// FILE* stream,
 											int i,
                                            	CDataSignal* dataSignal)
-{	
+{
 	FILE* stream;
 	stream = fopen(sbbFName,"wb");
 	int iSignal = i+1;
@@ -3243,17 +3243,17 @@ void CStructBookParm::saveSignalHeaderBin (	char* sbbFName,
 	// const char* c;
 
  // 	stream.open(m_sbbFName, ios::out | ios::binary | ios::app | ios::ate);
-    
+
 	// ss << &iSignal;
 	// s = ss.str();
 	// c = s.c_str();
 	// stream.write(c, size*sizeof(int));
-	 
+
 	// ss << &sigNorm;
 	// s = ss.str();
 	// c = s.c_str();
 	// stream.write(c, size2*sizeof(double));
-	
+
 	// stream.close();
 }
 
@@ -3267,7 +3267,7 @@ void CStructBookParm::saveBlockHeaderBin (  char* sbbFName,
 											// FILE* stream,
 											int j,
                                             double initBlockNorm)
-{	
+{
 	FILE* stream;
 	stream = fopen(sbbFName,"ab");
 	int iBlock = j+1;
@@ -3287,7 +3287,7 @@ void CStructBookParm::saveBlockHeaderBin (  char* sbbFName,
  //    const char* c;
 
  //    stream.open(m_sbbFName, ios::out | ios::binary | ios::app | ios::ate);
-    
+
  //    ss << &iBlock;
  //    s = ss.str();
  //    c = s.c_str();
@@ -3321,7 +3321,7 @@ void CStructBookParm::saveBlockEndingBin (	char* sbbFName/*,
 	// const char* c;
 
 	// stream.open(m_sbbFName, ios::out | ios::binary | ios::app | ios::ate);
-	
+
 	// dummyint = 99999;
 	// ss << &dummyint;
 	// s = ss.str();
@@ -3356,7 +3356,7 @@ void CStructBookParm::saveSignalEndingBin (	char* sbbFName/*,
  //    const char* c;
 
 	// stream.open(m_sbbFName, ios::out | ios::binary | ios::app | ios::ate);
-	
+
 	// dummyint = 88888;
  //    ss << &dummyint;
  //    s = ss.str();
@@ -3391,7 +3391,7 @@ void CStructBookParm::saveDecompEndingBin (	char* sbbFName/*,
  //    const char* c;
 
 	// stream.open(m_sbbFName, ios::out | ios::binary | ios::app | ios::ate);
-	
+
 	// dummyint = 77777;
  //    ss << &dummyint;
  //    s = ss.str();
@@ -3728,13 +3728,13 @@ void CStructBookParm::convertCoefNegativeToPositive()
         {
             m_structBook[i].phase += PI;
             m_structBook[i].innerProduct = - m_structBook[i].innerProduct;
-        } 
-    
+        }
+
         if (m_structBook[i].phase >= (2*PI) )
         {
             m_structBook[i].phase -= 2*PI;
         }
-    
+
         if (m_structBook[i].phase < 0 )
         {
             m_structBook[i].phase += 2*PI;
@@ -3820,7 +3820,7 @@ void CStructBookParm::sepByAmp(	strtParameter* pSB,
         coef = pSB[i].innerProduct;
         if ( (coef>lowerAmpRangeLimit) && (coef<=upperAmpRangeLimit) )
         {
-            addElement(pSB[i]);  
+            addElement(pSB[i]);
         }
     }
 }
@@ -3837,7 +3837,7 @@ void CStructBookParm::sepBySubBlock(	strtParameter* pSB,
         a = pSB[i].a;
         if ( (a>=lowerSubBlockLimit) && (a<upperSubBlockLimit) )
         {
-            addElement(pSB[i]);  
+            addElement(pSB[i]);
         }
     }
 }
@@ -3865,7 +3865,7 @@ void CStructBookParm::setQuantConfig(    strtParameter* pSB,
                                         int sigType)
 {
     sbQHeadParm.norm = norm;
-    
+
     sbQHeadParm.nbits_amp = nbits_amp;
     sbQHeadParm.nbits_rho = nbits_rho;
     sbQHeadParm.nbits_phase = nbits_phase;
@@ -3886,19 +3886,19 @@ void CStructBookParm::setQuantConfig(    strtParameter* pSB,
     }
     sbQHeadParm.nbits_a = (int)ceil( log(signalSize) / log(2.0) );
     sbQHeadParm.nbits_b = sbQHeadParm.nbits_a;
-	
+
 	sbQHeadParm.max_amp =-10000;
-	// Find max_amp 
+	// Find max_amp
     int i;
 	for( i=0;i < sbNumElement; i++)
 	{
-		if (pSB[i].innerProduct > sbQHeadParm.max_amp) 
+		if (pSB[i].innerProduct > sbQHeadParm.max_amp)
 			sbQHeadParm.max_amp = pSB[i].innerProduct;
-	}	
+	}
 	sbQHeadParm.min_amp =  0;
 	sbQHeadParm.max_rho = -100000;
 	sbQHeadParm.min_rho =  100000;
-	sbQHeadParm.max_phase = -2*PI; 
+	sbQHeadParm.max_phase = -2*PI;
 	sbQHeadParm.min_phase =  2*PI;
 
     double	nlevel_amp;
@@ -3914,7 +3914,7 @@ void CStructBookParm::setQuantConfig(    strtParameter* pSB,
 	for(i=0;i< sbNumElement;i++)
 	{
 		innerProductQ = (int)( (pSB[i].innerProduct + step_amp/2) / step_amp);
-		
+
 		if(innerProductQ != 0)
 		{
 			// rho
@@ -3929,7 +3929,7 @@ void CStructBookParm::setQuantConfig(    strtParameter* pSB,
 				sbQHeadParm.min_phase = pSB[i].phase;
 
 			// xi ajustment
-			if (pSB[i].xi < 0)	
+			if (pSB[i].xi < 0)
 				pSB[i].xi = - pSB[i].xi;
 			if (pSB[i].xi > 2*PI)
 				pSB[i].xi = pSB[i].xi - 2*PHASE_INT_NBITS;
@@ -3940,7 +3940,7 @@ void CStructBookParm::setQuantConfig(    strtParameter* pSB,
 
 	m_iNumElement = k;
     sbQHeadParm.numberStruct = m_iNumElement;
-	
+
 	if (m_structBook == NULL)
 	{
 		m_structBook = new strtParameter[m_iNumElement];
@@ -3967,7 +3967,7 @@ void CStructBookParm::quantStructBook(   strtParameter* pSB,
 
     double nlevel_phase = pow(2.0, (double)sbQHeadParm.nbits_phase) - 1;
 	double step_phase = fabs( (sbQHeadParm.max_phase - sbQHeadParm.min_phase) / nlevel_phase );
-	
+
 
 	//===================================================
 	// Quantize structure book
@@ -3975,23 +3975,23 @@ void CStructBookParm::quantStructBook(   strtParameter* pSB,
     double innerProductQ;
     int i;
     int k =0;
-    
+
 	for(i=0; i < sbNumElement;i++)
 	{
-		
+
 		innerProductQ = (int)( (pSB[i].innerProduct + step_amp/2) / step_amp) * step_amp;
-		
+
 		if(innerProductQ != 0)
 		{
 			// innerProduct
 			m_structBook[k].innerProduct = innerProductQ;
-			
+
 			// rho
 			m_structBook[k].rho = (int)((pSB[i].rho + step_rho/2)/step_rho) * step_rho;
 
             // xi
             m_structBook[k].xi = pSB[i].xi;
-			
+
 			// phase
 			m_structBook[k].phase = (int)((pSB[i].phase + step_phase/2)/step_phase) * step_phase;
 
@@ -4005,7 +4005,7 @@ void CStructBookParm::quantStructBook(   strtParameter* pSB,
 			m_structBook[k].b = pSB[i].b;
 
             k++;
-		
+
 		}
 	}
 
@@ -4045,21 +4045,21 @@ double CStructBookParm::computeRate(int numSamples)
 // Function: setOpCurve
 // Goal:
 // Return:
-//=============================================================== 
+//===============================================================
 
 void CStructBookParm::setOpCurve(strtOpCurveParm* opCurve,int numElement)
 {
     if (m_opCurve==NULL) m_opCurve = new strtOpCurveParm[numElement];
-    
+
     memcpy(m_opCurve,opCurve,sizeof(strtOpCurveParm)*numElement);
-    
+
     m_numElemOpCurve = numElement;
 }
 
 void CStructBookParm::setMinAmp(double minamp)
 {
     m_minamp = minamp;
-} 
+}
 
 void  CStructBookParm::setMaxAmp(double maxamp)
 {
@@ -4112,7 +4112,7 @@ strtOpCurveParm*	CStructBookParm::getOpCurve() const
 
 //===============================================================
 // Function: getNextAtomIndex
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 int CStructBookParm::getNextAtomIndex ( int atomIndex)
@@ -4122,7 +4122,7 @@ int CStructBookParm::getNextAtomIndex ( int atomIndex)
 
 //===============================================================
 // Function: getPrevAtomIndex
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 int CStructBookParm::getPrevAtomIndex ( int atomIndex)
@@ -4132,7 +4132,7 @@ int CStructBookParm::getPrevAtomIndex ( int atomIndex)
 
 //===============================================================
 // Function: getOrigAtomIndex
-// Goal: 
+// Goal:
 // Return:
 //===============================================================
 int CStructBookParm::getOrigAtomIndex ( int atomIndex)
@@ -4193,7 +4193,7 @@ void separateByAmpExp(CStructBook* sbIn,CStructBook* sbOut, int NAmpRange, doubl
         {
             if ( (coef>ampRangeLimit[j]) && (coef<=ampRangeLimit[j+1]) )
             {
-                ((CStructBookParm*)sbOut)[j].addElement(pSBIn[i]);  
+                ((CStructBookParm*)sbOut)[j].addElement(pSBIn[i]);
             }
         }
     }
@@ -4218,7 +4218,7 @@ void separateByAmp(CStructBook* sbIn,CStructBook* sbOut, int NAmpRange, double* 
         {
             if ( (coef>ampRangeLimit[j]) && (coef<=ampRangeLimit[j+1]) )
             {
-                ((CStructBookParm*)sbOut)[j].addElement(pSBIn[i]);  
+                ((CStructBookParm*)sbOut)[j].addElement(pSBIn[i]);
             }
         }
     }

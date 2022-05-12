@@ -12,7 +12,7 @@ CDataSignal::CDataSignal()
 	m_signalSize = 0;
 	m_signal = NULL;
 	m_norm = NULL;
-	
+
 }
 
 CDataSignal::~CDataSignal()
@@ -106,7 +106,7 @@ void CDataSignal::setSamplingRate(double sr)
 ////
 // Get methods
 ////
-char* CDataSignal::getFileName() 
+char* CDataSignal::getFileName()
 {
 	return m_fileName;
 }
@@ -121,7 +121,7 @@ int CDataSignal::getSignalSize()
 	return m_signalSize;
 }
 
-double** CDataSignal::getSignal() 
+double** CDataSignal::getSignal()
 {
 	return m_signal;
 }
@@ -183,7 +183,7 @@ CComtradeSignal::CComtradeSignal()
 CComtradeSignal::~CComtradeSignal()
 {
 	int i;
-	
+
 	if (m_digitalSignal != NULL)
 	{
 		for (i=0;i<m_numDigitalSignal;i++)
@@ -193,7 +193,7 @@ CComtradeSignal::~CComtradeSignal()
 		}
 		delete [] m_digitalSignal;
 	}
-	
+
 	if (m_config!=NULL)
 	{
 		delete m_config;
@@ -230,15 +230,15 @@ int CComtradeSignal::setConfig()
 	char erro[255];
 
 	pSource = new CNewComtrade;
-	
+
 	if (m_config==NULL) m_config = new CConfigComtrade;
-    
-    if (!pSource->SetNomeArquivo( m_fileName, 0, erro)) 
+
+    if (!pSource->SetNomeArquivo( m_fileName, 0, erro))
     {
 	    cout << erro << endl;
 	    return -1;
     }
-	
+
     //if (!pSource->ExtrairConfiguracao(&config, erro))
 	if (!pSource->ExtrairConfiguracao(m_config, erro))
     {
@@ -259,9 +259,9 @@ int CComtradeSignal::setConfig()
 
 int CComtradeSignal::setComtradeSignal()
 {
-	CTradutor*	pSource;            
+	CTradutor*	pSource;
 	void*       vCanais[__num_max_canais];
-	size_t      numpts, 
+	size_t      numpts,
 		        iNumCanais;
 	int         iIndiceCanais[__num_max_canais];
 	long        offset;
@@ -276,18 +276,18 @@ int CComtradeSignal::setComtradeSignal()
 
 	m_numSignal = m_config->GetNumCanaisAnalogicos();
 	m_numDigitalSignal = m_config->GetNumCanaisDigitais();
-	
+
 	int i;
-	
+
 	for ( i=0;i<iNumCanais;i++)
-	{	
+	{
 		iIndiceCanais[i] = i+1;
 		vCanais[i] = new float[auxL];
 	}
 
 	numpts = (size_t) auxL;
 	offset = 0;
-	
+
 	// Modifica a extensao do arquivo para ".dat"
 	char *pos;
 	pos = strrchr( m_fileName, '.');
@@ -296,29 +296,29 @@ int CComtradeSignal::setComtradeSignal()
 
 	pSource = new CNewComtrade;
 
-	if (!pSource->SetNomeArquivo( m_fileName, 0, erro)) 
+	if (!pSource->SetNomeArquivo( m_fileName, 0, erro))
     {
 		cout << erro << endl;
 	    	return -1;
     }
-	
+
 	// Extrai os valores da amostras dos canais
-	if (!pSource->ExtrairDados(	m_config,//&config, 
-					iIndiceCanais, 
-					iNumCanais, 
+	if (!pSource->ExtrairDados(	m_config,//&config,
+					iIndiceCanais,
+					iNumCanais,
 					vCanais,
-                    numpts, 
-					offset, 
-					0, 
+                    numpts,
+					offset,
+					0,
 					erro) )
 	{
 		cout << erro << endl;
 		return 0;
 	}
-	
-	
+
+
 	// =====================================================
-	
+
 	CCanalAnalogico* pChannel;
 
 	int k=0;
@@ -326,7 +326,7 @@ int CComtradeSignal::setComtradeSignal()
 	int j;
 
 	int iNumCanaisAnalog = m_config->GetNumCanaisAnalogicos();
-	
+
 	if (m_signal == NULL)
 	{
 		m_signal = new double*[iNumCanaisAnalog];
@@ -339,7 +339,7 @@ int CComtradeSignal::setComtradeSignal()
 			m_signal[i] = new double [numpts];
 			for (j=0;j<numpts;j++)
 			{
-				//if (analogSignal[i]==NULL) 
+				//if (analogSignal[i]==NULL)
 				m_signal[i][j] = ( angCoef * ( (float*)vCanais[k] )[j] ) + linCoef ;
 			}
 			k++;
@@ -360,10 +360,10 @@ int CComtradeSignal::setComtradeSignal()
 
 			for (j=0;j<numpts;j++)
 			{
-				//if (digitalSignal[i]==NULL)	
+				//if (digitalSignal[i]==NULL)
 				if ( ( (char*)vCanais[k] )[j] == 1 )
 					m_digitalSignal[i][j] = '1';
-				else 
+				else
 					m_digitalSignal[i][j] = '0';
 			}
 			m_digitalSignal[i][j] = 0;
@@ -375,10 +375,10 @@ int CComtradeSignal::setComtradeSignal()
 
 	delete pSource;
 	for (i=0;i<iNumCanais;i++)
-	{	
+	{
 		delete [] vCanais[i];
 	}
-		
+
 	return 1;
 
 }
@@ -393,11 +393,11 @@ void CComtradeSignal::cutComtrade(char* file, int initSample, int endSample)
 {
 	CConfigComtrade*	pConfig;
 	CTradutor*			pSource;
-	CTradutor*			pDest;            
+	CTradutor*			pDest;
 	void*				vCanais[__num_max_canais];
 	void*				vCanaisMod[__num_max_canais];
 
-	size_t				numpts, 
+	size_t				numpts,
 						iNumCanais;
 	int					iIndiceCanais[__num_max_canais];
 	long				offset;
@@ -410,12 +410,12 @@ void CComtradeSignal::cutComtrade(char* file, int initSample, int endSample)
 	pConfig = new CConfigComtrade;
 	pSource = new CNewComtrade;
 
-	if (!pSource->SetNomeArquivo( file, 0, erro)) 
+	if (!pSource->SetNomeArquivo( file, 0, erro))
     {
 		cout << erro << endl;
     }
 
-	if (!pSource->ExtrairConfiguracao(pConfig,erro)) 
+	if (!pSource->ExtrairConfiguracao(pConfig,erro))
     {
 		cout << erro << endl;
     }
@@ -429,7 +429,7 @@ void CComtradeSignal::cutComtrade(char* file, int initSample, int endSample)
 	int i,k;
 
 	for ( i=0;i<iNumCanais;i++)
-	{	
+	{
 		iIndiceCanais[i] = i+1;
 		if (i<pConfig->GetNumCanaisAnalogicos())
 		{
@@ -437,13 +437,13 @@ void CComtradeSignal::cutComtrade(char* file, int initSample, int endSample)
 			for (k=0;k<numpts;k++)
 			{
 				( (float*) vCanais[i])[k] =0.0;
-				
+
 			}
 			vCanaisMod[i] = new float[endSample-initSample+1];
 			for (k=0;k<endSample-initSample+1;k++)
 			{
 				( (float*) vCanaisMod[i])[k] =0.0;
-				
+
 			}
 		}
 		else
@@ -452,13 +452,13 @@ void CComtradeSignal::cutComtrade(char* file, int initSample, int endSample)
 			for (k=0;k<numpts;k++)
 			{
 				( (char*) vCanais[i])[k] = '0';
-				
+
 			}
 			vCanaisMod[i] = new char[endSample-initSample+1];
 			for (k=0;k<endSample-initSample+1;k++)
 			{
 				( (char*) vCanaisMod[i])[k] = '0';
-				
+
 			}
 		}
 	}
@@ -467,19 +467,19 @@ void CComtradeSignal::cutComtrade(char* file, int initSample, int endSample)
 	if (pos!=NULL) strcpy( &pos[1], "dat");
 	else strcat( file, ".dat");
 
-	if (!pSource->SetNomeArquivo( file, 0, erro)) 
+	if (!pSource->SetNomeArquivo( file, 0, erro))
     {
 		cout << erro << endl;
     }
-		
+
 	// Extrai os valores da amostras dos canais
-	if (!pSource->ExtrairDados(	pConfig, 
-					iIndiceCanais, 
-					iNumCanais, 
+	if (!pSource->ExtrairDados(	pConfig,
+					iIndiceCanais,
+					iNumCanais,
 					vCanais,
-                    numpts, 
-					offset, 
-					0, 
+                    numpts,
+					offset,
+					0,
 					erro) )
 	{
 		cout << erro << endl;
@@ -487,7 +487,7 @@ void CComtradeSignal::cutComtrade(char* file, int initSample, int endSample)
 
 	int j;
 	for ( i=0;i<iNumCanais;i++)
-	{	
+	{
 		if (i<pConfig->GetNumCanaisAnalogicos())
 		{
 			j = 0;
@@ -495,7 +495,7 @@ void CComtradeSignal::cutComtrade(char* file, int initSample, int endSample)
 			{
 				( (float*) vCanaisMod[i])[j] =	( (float*) vCanais[i])[k];
 				j++;
-				
+
 			}
 
 		}
@@ -506,14 +506,14 @@ void CComtradeSignal::cutComtrade(char* file, int initSample, int endSample)
 			{
 				( (char*) vCanaisMod[i])[j] = ( (char*) vCanais[i])[k];
 				j++;
-				
+
 			}
 		}
 
 
 	}
 
-	pDest = new CNewComtrade; 
+	pDest = new CNewComtrade;
 
 	// Modificar a freq. de amostragem e o valor da ultima amostra
 	//double fs_aux;
@@ -521,7 +521,7 @@ void CComtradeSignal::cutComtrade(char* file, int initSample, int endSample)
 	pConfig->AlterarTaxa(1,
 						 (pConfig->GetTaxa(1))->GetTaxaAmostragem(),
 						 endSample-initSample+1);
-	
+
 
 	// Modificar o tempo da primeira amostra
 	__instante* inst1;
@@ -534,17 +534,17 @@ void CComtradeSignal::cutComtrade(char* file, int initSample, int endSample)
 		inst2->tm_sec = inst1->tm_sec;
 		pConfig->SetInstanteTrigger(inst2);
 	}
-	
+
 	pConfig->SetInstantePrimeiraAmostra(inst1);
 
 	strcpy(newFileName,file);
 	pos = strrchr( newFileName, '.');
-	if (pos!=NULL) 
+	if (pos!=NULL)
 	{
 		strcpy( &pos[0], "_mod.cfg");
 	}
-	else 
-	{	
+	else
+	{
 		strcat( newFileName, "_mod.cfg");
 	}
 
@@ -555,7 +555,7 @@ void CComtradeSignal::cutComtrade(char* file, int initSample, int endSample)
 	// Insere dat ================================
 	pos = strrchr( newFileName, '.');
 	strcpy( &pos[1], "dat");
-	
+
 	pDest->SetNomeArquivo(newFileName,1,erro);
 
 	if (!pDest->InserirDados(pConfig,
@@ -574,7 +574,7 @@ void CComtradeSignal::cutComtrade(char* file, int initSample, int endSample)
 	delete pDest;
 	delete pConfig;
 	for (i=0;i<iNumCanais;i++)
-	{	
+	{
 		delete [] vCanais[i];
 		delete [] vCanaisMod[i];
 	}
@@ -669,9 +669,9 @@ void CAudioSignal::setSignal()
 {
 	int i;
 	SndInFile audio(m_fileName);
-	
+
 	m_numSignal = audio.getNumberOfChannels();
-	
+
 	m_signalSize = audio.getNumberOfSamples();
 
 	m_Fs = audio.getSamplingRate();
@@ -685,7 +685,7 @@ void CAudioSignal::setSignal()
 			m_signal[i] = new double[m_signalSize];
 			memcpy(m_signal[i],audio.getSignal(i), sizeof(double)*m_signalSize);
 		}
-		
+
 	}
 	else
 	{
@@ -694,7 +694,7 @@ void CAudioSignal::setSignal()
 			memcpy(m_signal[i],audio.getSignal(i), sizeof(double)*m_signalSize);
 		}
 	}
-	
+
 
 }
 
@@ -728,7 +728,7 @@ void CAudioSignal::saveSignal()
     audio.createFile(m_fileName);
 
     //audio.setChannels(m_numSignal);
-    
+
     //audio.setSampleRate((int)m_Fs);
 
     int length = m_signalSize*m_numSignal;
@@ -791,7 +791,7 @@ void CNoiseSignal::setSignal()
 			}
 		}
 	}
-	
+
 
 	free(aux_sem);
 
@@ -811,13 +811,13 @@ double CNoiseSignal::getSamplingRate() const
 
 //===============================================================
 // Function: gausdev
-// Goal: Funcao para retornar uma amostra dentro de uma distribuicao 
-//		 gaussiana com media zero e variancia unitaria, utiliza a 
+// Goal: Funcao para retornar uma amostra dentro de uma distribuicao
+//		 gaussiana com media zero e variancia unitaria, utiliza a
 //		 funcao ran1 (acima) e as transformacoes de Box-Miller.
-//		- Ver:	Numerical Recipits in C, Press, Teukolsky, 
-//				Vetterling, Flannery, Cambridge University Press, pag. 289 
-//		sem ->	ponteiro para a semente(long int) que inicia a geracao 
-//				da sequencia 
+//		- Ver:	Numerical Recipits in C, Press, Teukolsky,
+//				Vetterling, Flannery, Cambridge University Press, pag. 289
+//		sem ->	ponteiro para a semente(long int) que inicia a geracao
+//				da sequencia
 // Return:
 //===============================================================
 
@@ -831,7 +831,7 @@ double CNoiseSignal::gausdev(long int *sem)
 
 	if (iset == 0)
     {
-   		do 
+   		do
 		{
 			v1 = 2.0*ran1(sem) - 1.0;
 			v2 = 2.0*ran1(sem) - 1.0;
@@ -854,15 +854,15 @@ double CNoiseSignal::gausdev(long int *sem)
 
 //===============================================================
 // Function: ran1
-// Goal: Funcao para retornar um amostra de uma distribuicao 
+// Goal: Funcao para retornar um amostra de uma distribuicao
 //		 uniforme entre 0.0 e 1.0.
-//		- Inicializar com idum inteiro negativo. 
-//		- Depois nao modificar "idum" entre amostras sucessivas de 
+//		- Inicializar com idum inteiro negativo.
+//		- Depois nao modificar "idum" entre amostras sucessivas de
 //        uma sequencia.
-//		- Ver:	Numerical Recipes in C, Press, Teukolsky, Vetterling, 
-//				Flannery, Cambridge University Press, pag. 280         
-//		sem ->	ponteiro para a semente(long int) que inicia a 
-//				geracao da sequencia 
+//		- Ver:	Numerical Recipes in C, Press, Teukolsky, Vetterling,
+//				Flannery, Cambridge University Press, pag. 280
+//		sem ->	ponteiro para a semente(long int) que inicia a
+//				geracao da sequencia
 // Return:
 //===============================================================
 
@@ -876,18 +876,18 @@ double CNoiseSignal:: ran1(long int *sem)
 
 	if (*sem <= 0 || !iy)
 	{
-   		if (-(*sem)< 1) 
+   		if (-(*sem)< 1)
 			*sem =1;
-		else 
+		else
 			*sem = -(*sem);
 
-		for (j=NTAB+7; j>=0; j--) 
+		for (j=NTAB+7; j>=0; j--)
 		{
 			k=(*sem)/IQ;
 			*sem=IA*(*sem-k*IQ)-IR*k;
 
 			if (*sem <0) *sem += IM;
-			if (j<NTAB) iv[j] = *sem; 
+			if (j<NTAB) iv[j] = *sem;
 		}
 
 		iy = iv[0];
@@ -901,14 +901,15 @@ double CNoiseSignal:: ran1(long int *sem)
 	iy=iv[j];
 	iv[j] = *sem;
 
-	if ((temp=AM*iy)>RNMX) 
+	if ((temp=AM*iy)>RNMX)
 		return RNMX;
 	else
 		return temp;
 
 }
 
-
+/*
+Comentado em 01/21
 ////////////////////////////////////////////////////////////////////////////////
 // CECGSignal
 ////////////////////////////////////////////////////////////////////////////////
@@ -923,12 +924,12 @@ void CECGSignal::setSignal()
 	int j = 0;
 
 	strcpy(record,m_fileName);
-	
+
 	nsig = isigopen(record, NULL, 0);
 	if (freq <= (WFDB_Frequency)0) freq = sampfreq(record);
 
 	m_Fs = freq;
-	
+
 	if (nsig < 1) exit(1);
 
 	s = new WFDB_Siginfo[nsig*sizeof(WFDB_Siginfo)];
@@ -979,3 +980,4 @@ double CECGSignal::getSamplingRate() const
 {
 	return m_Fs;
 }
+*/

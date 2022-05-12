@@ -529,6 +529,55 @@ public:
 
 };
 
+class CChi2Dictionary: public CDictionary{
+
+public: 
+
+    // Constructor
+    CChi2Dictionary(){};
+
+    // Destructor
+    virtual ~CChi2Dictionary(){};
+
+    // Interface
+    virtual void setSignalSize(int signalSize);
+    virtual void setComplexAtom(strtParameter* parm);
+    virtual void setRealAtom(strtParameter* parm);
+
+    virtual int         getSignalSize();
+    virtual CComplex*   getComplexAtom();
+    virtual double*     getRealAtom();
+    
+    // double computeUnormRAtomSampleSigSize(strtParameter* parm,int t, int signalSize);
+
+        // ---- Optimum phase computation
+    double computeOptimumPhase( cgMatrix<double>& residue, 
+                                double xi);
+    double computeOptimumPhase( cgMatrix<double>& residue, 
+                                double xi,
+                                double& innerProd);
+//     // Maximize approximation by finding optimum parameters
+    void optimizeContinuousParms(   cgMatrix<double>& residue,
+                                     strtParameter* parm);
+
+    void optimizeContinuousParmsBateman(   cgMatrix<double>& residue,
+                                                strtParameter* parm);
+
+    void adjustParameters(  cgMatrix<double>& residue,
+                            strtParameter* parm);
+
+    double getApproxRatio(int signalSize);
+
+    // //=============================================================
+
+    // void computeNextBlockCoefPhase(strtParameter* parm);
+
+    void saveRealParm2TxtFile(char* fileName, double s, double xi, int u);
+
+    void saveComplexParm2TxtFile(char* fileName, double s, double xi, int u);
+
+
+};
 
 
 #endif

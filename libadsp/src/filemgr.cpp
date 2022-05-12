@@ -1825,3 +1825,206 @@ double** CFileNetwork::getW2()
 {
     return m_w2;
 }
+/*
+//=======================
+// CFileNetworkEDA Class
+//=======================
+
+CFileNetworkEDA::CFileNetworkEDA ()
+{
+    //m_x1_xoffset=NULL;
+    //m_x1_gain=NULL;
+    //m_x1_ymin=0;
+    m_b1=NULL;
+    m_w1=NULL;
+    m_b2=NULL;
+    m_w2=NULL;
+    m_blockSize = 0;
+    m_chosenNet  = 0;
+    m_size_x=0;
+    m_size_h=0;
+    m_size_y=0;
+}
+
+CFileNetworkEDA::~CFileNetworkEDA()
+{
+    //if (m_x1_xoffset != NULL) delete [] m_x1_xoffset;
+
+    //if (m_x1_gain != NULL) delete [] m_x1_gain;
+
+    if (m_b1 != NULL) delete [] m_b1;
+
+    for(int i = 0; i < m_size_h; ++i)
+    {    
+        if (m_w1[i] != NULL) delete [] m_w1[i];
+    }
+
+    if (m_w1 != NULL) delete [] m_w1;
+
+    if (m_b2 != NULL) delete [] m_b2;
+
+    for(int i = 0; i < m_size_y; ++i)
+    {    
+        if (m_w2[i] != NULL) delete [] m_w2[i];
+    }
+
+    if (m_w2 != NULL) delete [] m_w2;
+}
+
+void CFileNetworkEDA::setFileName(char* file)
+{
+    strcpy(m_fileName, file);
+}
+
+void CFileNetworkEDA::setBlockSize(int blockSize)
+{
+    m_blockSize = blockSize;
+}
+
+void CFileNetworkEDA::setNetwork(int num)
+{
+    m_chosenNet = num;
+}
+
+void CFileNetworkEDA::loadData()
+{
+    m_size_x = 64;
+    m_size_h = 16;
+    m_size_y = 3;
+
+    int net = 0;
+
+    //m_x1_xoffset = new double[m_size_x];
+
+    //m_x1_gain = new double[m_size_x];
+
+    m_w1 = new double*[m_size_x];
+    for(int i = 0; i < m_size_x; ++i)
+    {
+        m_w1[i] = new double[m_size_h];
+    }
+    
+    m_b1 = new double[m_size_h];
+
+    m_b2 = new double[m_size_y];
+
+    m_w2 = new double*[m_size_y];
+    for(int i = 0; i < m_size_y; ++i)
+    {
+        m_w2[i] = new double[m_size_h];
+    }
+
+    FILE* netFile;
+    char auxStr[_MAX_PATH];
+    char auxStr2[_MAX_PATH];
+    char* sNumber;
+    // Opening the "dictionary.dat" file
+    netFile = fopen(m_fileName,"r");
+    // netFile = fopen ("panelNet.dat" , "r");
+   if (netFile == NULL) perror ("Error opening file");
+   else {
+
+    fgets( auxStr, _MAX_PATH, netFile );
+    sNumber = &auxStr[0];
+    net = atoi(sNumber);    // <<<<<<<<<<<<<<<<
+
+
+    while (net != m_chosenNet)
+    {
+        for (int i = 0; i<42; i++)
+        {
+            fgets( auxStr, (24*m_size_x)+1, netFile );
+        }
+            fgets( auxStr, _MAX_PATH, netFile );
+            sNumber = &auxStr[0];
+            net = atoi(sNumber);    // <<<<<<<<<<<<<<<<
+    }
+
+
+
+
+        for (int i = 0; i < m_size_x; i++)
+    {
+        fgets( auxStr, _MAX_PATH, netFile );
+        //cout<<"\n";
+        for (int j = 0; j < m_size_h; j++)
+        {
+            strcpy(auxStr2,auxStr);
+            auxStr2[9*(j+1)-1] = NULL;
+            sNumber = &auxStr[9*j];
+            m_w1[i][j] = atof(sNumber);
+            aux = atof(sNumber);
+            //cout<<aux<<"  ";   // <<<<<<<<<<<<<<<<
+        }
+    }
+    fgets( auxStr, _MAX_PATH, netFile );
+    for (int i = 0; i < m_size_h; i++)
+    {
+        fgets( auxStr, _MAX_PATH, netFile );
+        sNumber = &auxStr[0];
+        m_b1[i] = atof(sNumber);
+        cout<<m_b1[i]<<"  ";   // <<<<<<<<<<<<<<<<
+    }
+fgets( auxStr, _MAX_PATH, netFile );
+     for (int i = 0; i < m_size_h; i++)
+    {
+        fgets( auxStr, _MAX_PATH, netFile );
+        cout<<"\n";
+        for (int j = 0; j < m_size_y; j++)
+        {
+            strcpy(auxStr2,auxStr);
+            auxStr2[9*(j+1)-1] = NULL;
+            sNumber = &auxStr[9*j];
+            m_w2[i][j] = atof(sNumber);
+            aux = atof(sNumber);
+            cout<<aux<<"  ";   // <<<<<<<<<<<<<<<<
+        }
+    }
+fgets( auxStr, _MAX_PATH, netFile );
+        for (int i = 0; i < m_size_y; i++)
+    {
+        fgets( auxStr, _MAX_PATH, netFile );
+        sNumber = &auxStr[0];
+        m_b2[i] = atof(sNumber);
+        cout<<"\n"<<m_b2[i]<<"  ";   // <<<<<<<<<<<<<<<<
+    }
+
+    fclose(netFile);
+}
+
+double* CFileNetworkEDA::getX1_xoffset()
+{
+    return m_x1_xoffset;
+}
+
+double* CFileNetworkEDA::getX1_gain()
+{
+    return m_x1_gain;
+}
+
+double CFileNetworkEDA::getX1_ymin()
+{
+    return m_x1_ymin;
+}
+
+double* CFileNetworkEDA::getB1()
+{
+    return m_b1;
+}
+
+double** CFileNetworkEDA::getW1()
+{
+    return m_w1;
+}
+
+double* CFileNetworkEDA::getB2()
+{
+    return m_b2;
+}
+
+double** CFileNetworkEDA::getW2()
+{
+    return m_w2;
+}
+*/
+
